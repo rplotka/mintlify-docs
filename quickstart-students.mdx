@@ -1,0 +1,81 @@
+---
+title: "Student Quickstart: Account Setup and Course Enrollment"
+description: "Create your account, complete your profile, enroll in your first RPI ITWS course using an enrollment token, and navigate your student dashboard."
+---
+
+Learning In Stride is the LMS for RPI ITWS courses. This guide walks you through creating an account, completing your profile, enrolling in a course with your instructor's enrollment token, and finding everything you need on your student dashboard.
+
+<Steps>
+  <Step title="Create your account">
+    Go to the Learning In Stride registration page and choose one of three sign-in methods:
+
+    - **Continue with Google** — the fastest option. Click the Google button and authorize with any Google account.
+    - **Continue with RPI Shibboleth** — sign in with your `@rpi.edu` credentials through RPI's identity provider. Your RCS ID is verified automatically.
+    - **Email and password** — expand the "Sign in with email and password" section, then click **Register** in the footer. Fill in your full name, your `@rpi.edu` email address, an optional RCS ID (e.g., `doej`), and a password of at least 8 characters.
+
+    After submitting, you will be directed to complete your profile.
+  </Step>
+
+  <Step title="Complete your profile">
+    The onboarding form links your Learning In Stride account to your RPI student record. Fill in the following fields:
+
+    - **RIN** (required) — your 9-digit RPI Identification Number, starting with `66`. Example: `661234567`.
+    - **RCS ID** (required) — your RCS username, such as `smithj2`. If you signed in via RPI Shibboleth, this field is pre-filled and locked because your identity was already verified.
+    - **Preferred name** (optional) — what Learning In Stride will use in greetings and notifications.
+    - **Pronouns** (optional) — choose from the list or enter your own.
+    - **Discord username** (optional) — needed for course Discord server access.
+    - **GitHub username** (optional) — used for code submission workflows.
+
+    Click **Complete Setup**. If your RIN matches the student roster, your account is linked immediately and you are redirected to your dashboard. If no match is found, you can choose to continue anyway — your account will require instructor approval before you can access course content.
+
+    <Warning>
+      If you continue without a matching RIN, your account is placed in a pending state. Contact your instructor to approve your enrollment.
+    </Warning>
+  </Step>
+
+  <Step title="Enroll in a course using an enrollment token">
+    Your instructor will share a unique enrollment link or QR code at the start of the semester. The URL looks like `/enroll/<token>`. Open that link in a browser.
+
+    Learning In Stride validates the token and displays the course details — course code, course name, semester, and instructor. You will then be prompted to **Connect with Discord** to complete enrollment.
+
+    After connecting, the platform automatically:
+
+    1. Adds you to the class Discord server.
+    2. Assigns you the course role, giving you access to the course channels.
+    3. Assigns a team role if your instructor has configured teams.
+    4. Saves your profile information.
+
+    <Note>
+      Enrollment tokens are course-specific and single-use per student. If you scan a QR code that has already been redeemed by your account, Learning In Stride shows an "Already Enrolled" confirmation rather than enrolling you twice. Ask your instructor for a new link only if the token is reported as invalid.
+    </Note>
+  </Step>
+
+  <Step title="Navigate your student dashboard">
+    After enrollment, go to `/dashboard`. Your dashboard surfaces everything you need at a glance:
+
+    - **My Courses** — cards for each course you are enrolled in this semester, with quick links to assignments and grades.
+    - **Upcoming schedule** — class sessions and deadlines from the course schedule.
+    - **Assignment list** — open assignments sorted by due date, with overdue items flagged.
+    - **Submit Assignment** — a quick-access button that lists all assignments awaiting a submission across all your courses, sorted by urgency (late items first).
+    - **Stats overview** — a summary of your standing, recent grades, and participation.
+    - **Recommendations** — personalized suggestions based on your activity.
+    - **Calendar subscription** — subscribe to your course schedule in Google Calendar or any iCal client.
+
+    Use the **Student Guide** (the help icon in the header) for a tour of each section any time you need a refresher.
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card title="Dashboard overview" icon="layout-dashboard" href="/students/dashboard">
+    Learn about every widget on your student dashboard in detail.
+  </Card>
+  <Card title="Submitting assignments" icon="upload" href="/students/assignments">
+    How to submit files, check due dates, and view feedback.
+  </Card>
+  <Card title="Grades and progress" icon="chart-bar" href="/students/grades">
+    Understand grade categories, weights, and your running total.
+  </Card>
+  <Card title="Exam preparation" icon="book-open" href="/students/exam-prep">
+    Use the study path and exam simulator to prepare for FINRA-style exams.
+  </Card>
+</CardGroup>

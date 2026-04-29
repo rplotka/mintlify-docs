@@ -1,0 +1,165 @@
+---
+title: 'Manage Your Learning In Stride Profile and Account Settings'
+description: 'Edit your display name, pronouns, and bio in Learning In Stride. Connect Discord and GitHub, manage linked sign-in providers, and update your password.'
+---
+
+Your profile in Learning In Stride holds everything instructors and classmates see about you, as well as the linked accounts and credentials you use to sign in. All profile settings live at **Settings** in the top navigation after you sign in.
+
+## Account information
+
+The **Account Information** card at the top of your profile shows read-only fields pulled from your registration or your institutional identity provider:
+
+| Field | Description |
+|---|---|
+| Name | Your full registered name |
+| Chosen Name | The name displayed to others if set (see below) |
+| Pronouns | Displayed alongside your name if set |
+| Email | Your primary email address |
+| Role | Student, TA, Grader, Professor, or Admin |
+| Status | Approved or Pending |
+| RCS ID | Your RPI Computing System ID, if linked |
+
+---
+
+## Edit your profile
+
+Open the **Edit Profile** card. You can update the following fields:
+
+- **Chosen Name** — up to 50 characters. When set, this replaces your first name in all display contexts across Learning In Stride. Leave it blank to fall back to the name on your account.
+- **Pronouns** — up to 30 characters. Displayed next to your name for instructors and peers. Example values: `he/him`, `she/her`, `they/them`.
+- **Bio** — up to 500 characters. A short description about yourself, visible to your instructors. A character counter appears as you type.
+
+Select **Save Changes** to apply your edits.
+
+<Tip>
+Setting a chosen name is particularly useful if you go by a name other than your legal name on file at RPI. The system will use it everywhere your name appears within the LMS.
+</Tip>
+
+---
+
+## Linked accounts
+
+The **Linked Accounts** card manages which external identity providers are connected to your Learning In Stride account. These are the sign-in methods you can use on the login page.
+
+### Link or unlink Google
+
+If Google is not yet connected, select **Connect** next to the Google entry. You will be redirected through the Google sign-in flow and returned to your profile once linked.
+
+To unlink Google, select **Unlink**. If Google is your only login method and you have no password set, you will see a warning that your account will be deactivated if you proceed.
+
+### Link or unlink RPI Shibboleth
+
+If RPI Shibboleth is not connected, select **Connect** next to the RPI entry. You will be directed through the RPI login page. Once authenticated, your RCS ID is linked to your account.
+
+To unlink RPI, select **Unlink**. As with Google, removing your only login provider deactivates your account.
+
+<Warning>
+  Unlinking your only login provider will deactivate your account. You will need an administrator to reactivate it. Make sure you have at least one other sign-in method available before unlinking.
+</Warning>
+
+---
+
+## Connect your Discord account
+
+Linking Discord allows Learning In Stride to send you direct messages and activity alerts through the course Discord server. Instructors may also use Discord handles to identify you in participation tracking.
+
+<Steps>
+  <Step title="Open your profile">
+    Go to **Settings** and locate the **Account Information** card.
+  </Step>
+  <Step title="Select Link Discord">
+    Next to the Discord field, select **Link Discord**. You will be redirected to Discord's authorization page.
+  </Step>
+  <Step title="Authorize the connection">
+    Sign in to Discord if prompted, then authorize the Learning In Stride bot. You will be redirected back to your profile automatically.
+  </Step>
+  <Step title="Confirm the link">
+    Your Discord handle will appear in green in the Account Information card once linked successfully.
+  </Step>
+</Steps>
+
+To unlink Discord, select **Unlink** next to your Discord handle. This removes the connection but does not remove you from any Discord servers.
+
+<Note>
+  If you see "This Discord account is already linked to another user," you need to unlink Discord from that other account first, or use a different Discord account.
+</Note>
+
+---
+
+## Set or update your GitHub username
+
+Your GitHub username is used by instructors to track submissions in GitHub Classroom assignments. It appears in the **Account Information** card.
+
+Select the pencil icon next to the GitHub field, enter your GitHub username, and select the checkmark to save. Select the X to cancel without saving.
+
+<Tip>
+  If GitHub Classroom assignments are part of your course, set your GitHub username before the first assignment is due. Instructors use it to match your submissions to your account.
+</Tip>
+
+---
+
+## Update your password
+
+<Tabs>
+  <Tab title="If you already have a password">
+    <Steps>
+      <Step title="Open the Password card">
+        Scroll to the **Password** section at the bottom of your profile settings.
+      </Step>
+      <Step title="Select Change Password">
+        Select **Change Password** to expand the password form.
+      </Step>
+      <Step title="Enter your current and new passwords">
+        Provide your current password, then enter and confirm your new password. New passwords must be at least 8 characters.
+      </Step>
+      <Step title="Save">
+        Select **Change Password** to apply the update.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="If you only use Google or RPI to sign in">
+    If you have never set a password, you can add one as an additional login method. This requires verifying your identity first.
+
+    <Steps>
+      <Step title="Select Set a Password">
+        In the **Password** card, select **Set a Password**.
+      </Step>
+      <Step title="Choose your verification provider">
+        If you have both Google and RPI linked, you will be asked to choose which to use for verification. If you only have one, it is used automatically. You will be redirected to that provider's sign-in page.
+      </Step>
+      <Step title="Authenticate and return">
+        Sign in through the provider. You will be redirected back to your profile with a confirmation that your identity was verified.
+      </Step>
+      <Step title="Set your new password">
+        Enter and confirm a new password of at least 8 characters, then select **Set Password**.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+---
+
+## Privacy and visibility
+
+Your profile data in Learning In Stride is visible to instructors, TAs, and graders in courses you are enrolled in. Students in the same course may see your chosen name and pronouns in discussion and participation contexts.
+
+Your email address, RCS ID, RIN, and linked account details are never displayed to other students.
+
+---
+
+## Viewing enrolled courses
+
+Your enrolled courses are visible from your student dashboard at `/dashboard`. The dashboard lists all active course enrollments with links to course content, assignments, and announcements. Your profile settings page does not duplicate this view, but changes you make to your name and chosen name will be reflected in course contexts immediately after saving.
+
+---
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Sign in and registration" icon="lock" href="/account/authentication">
+    Learn about sign-in options, account registration, and account recovery.
+  </Card>
+  <Card title="Notification preferences" icon="bell" href="/account/notifications">
+    Control which notifications you receive and how they are delivered.
+  </Card>
+</CardGroup>

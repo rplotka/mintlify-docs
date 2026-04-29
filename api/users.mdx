@@ -1,0 +1,307 @@
+---
+title: "REST API endpoints for user profiles in Learning In Stride"
+description: "Retrieve and update your user profile, change your password, and enroll in a course using a token link. Full user object schema and role reference included."
+---
+
+The users API lets you read and update your own profile on Learning In Stride. You can fetch your current account information — including linked accounts, 2FA status, and enrollment roles — update fields such as your name, avatar, or GitHub username, and enroll in a course using an enrollment token. All endpoints require authentication unless otherwise noted.
+
+## Get current user profile
+
+Returns the full profile for the authenticated user. This is the most complete view of the user object and includes security settings and linked account status.
+
+```
+GET /api/auth/me
+```
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/auth/me \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/auth/me", {
+  headers: { Authorization: `Bearer ${token}` },
+});
+const { user } = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "user": {
+    "id": "clx1abc123",
+    "email": "alexsmith@rpi.edu",
+    "name": "Alex Smith",
+    "chosenName": "Alex",
+    "pronouns": "they/them",
+    "bio": null,
+    "avatar": "https://cdn.example.com/avatars/alex.jpg",
+    "role": "STUDENT",
+    "status": "APPROVED",
+    "rcsId": "smitha7",
+    "rin": null,
+    "studentId": null,
+    "githubUsername": "alexsmith-rpi",
+    "discordId": "123456789012345678",
+    "discordHandle": "alexsmith",
+    "lastLogin": "2026-04-28T18:00:00.000Z",
+    "createdAt": "2026-01-15T09:00:00.000Z",
+    "twoFactorEnabled": false,
+    "hasPassword": true,
+    "hasGoogle": false,
+    "hasRpi": true,
+    "passkeyCount": 0,
+    "hasStudentEnrollments": true,
+    "hasStaffEnrollments": false,
+    "effectiveIsStaff": false
+  },
+  "passkeys": []
+}
+```
+
+<ResponseField name="user.id" type="string">
+  Unique user identifier (CUID).
+</ResponseField>
+
+<ResponseField name="user.email" type="string">
+  The user's primary email address.
+</ResponseField>
+
+<ResponseField name="user.name" type="string">
+  Legal or display name.
+</ResponseField>
+
+<ResponseField name="user.chosenName" type="string | null">
+  Preferred name, if different from the legal name.
+</ResponseField>
+
+<ResponseField name="user.pronouns" type="string | null">
+  User's stated pronouns (e.g., `"they/them"`).
+</ResponseField>
+
+<ResponseField name="user.role" type="string">
+  Global system role. One of `STUDENT`, `TA`, `GRADER`, `INSTRUCTOR`, `PROFESSOR`, or `ADMIN`. See the role table below.
+</ResponseField>
+
+<ResponseField name="user.status" type="string">
+  Account approval status. `APPROVED` accounts can log in. `PENDING` accounts are awaiting admin approval.
+</ResponseField>
+
+<ResponseField name="user.rcsId" type="string | null">
+  RPI RCS ID (e.g., `"smitha7"`). Set during onboarding.
+</ResponseField>
+
+<ResponseField name="user.githubUsername" type="string | null">
+  GitHub username linked to the account. Required for assignments that use `requiresGithub: true`.
+</ResponseField>
+
+<ResponseField name="user.twoFactorEnabled" type="boolean">
+  Whether TOTP two-factor authentication is active on the account.
+</ResponseField>
+
+<ResponseField name="user.hasPassword" type="boolean">
+  `true` if the account has a password set. Accounts created only via Google OAuth will have this as `false`.
+</ResponseField>
+
+<ResponseField name="user.effectiveIsStaff" type="boolean">
+  `true` if the user has a staff role globally **or** has a staff enrollment (TA, Instructor, Grader) in at least one course. Use this to determine whether to show instructor-level UI.
+</ResponseField>
+
+<ResponseField name="passkeys" type="array">
+  List of registered passkey credentials for the account.
+</ResponseField>
+
+## User roles
+
+| Role | Access level |
+|------|-------------|
+| `STUDENT` | Read-only access to enrolled courses, own submissions, and own grades |
+| `TA` | Can view grading queues; cannot finalize grades |
+| `GRADER` | Can grade submissions; cannot manage course structure |
+| `INSTRUCTOR` | Full course management for assigned courses |
+| `PROFESSOR` | Same as `INSTRUCTOR`; also manages enrollment tokens |
+| `ADMIN` | Unrestricted access to all resources |
+
+## Update profile
+
+Updates the mutable fields of the authenticated user's profile. Only the fields you include in the request body are changed; omitted fields are left unchanged.
+
+```
+PUT /api/auth/profile
+```
+
+<ParamField body="name" type="string">
+  Updated display name (2–100 characters).
+</ParamField>
+
+<ParamField body="avatar" type="string">
+  URL to a profile image. Pass an empty string to clear the avatar.
+</ParamField>
+
+<ParamField body="githubUsername" type="string">
+  GitHub username (1–39 characters, alphanumeric and hyphens). Pass an empty string to unlink GitHub. Must match the pattern `^[a-zA-Z\d](?:[a-zA-Z\d]|-(?=[a-zA-Z\d])){0,38}$`.
+</ParamField>
+
+<CodeGroup>
+```bash cURL
+curl -X PUT https://lms.plotka.me/api/auth/profile \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"githubUsername": "alexsmith-rpi", "name": "Alex Smith"}'
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/auth/profile", {
+  method: "PUT",
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ githubUsername: "alexsmith-rpi" }),
+});
+const { user } = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "message": "Profile updated successfully",
+  "user": {
+    "id": "clx1abc123",
+    "email": "alexsmith@rpi.edu",
+    "name": "Alex Smith",
+    "githubUsername": "alexsmith-rpi",
+    "role": "STUDENT"
+  }
+}
+```
+
+<Note>
+  Updating your GitHub username automatically propagates the change to all enrollment records across your courses. This keeps your repository references consistent when GitHub repositories are configured per-enrollment.
+</Note>
+
+## Change password
+
+Changes the password for the authenticated user. All existing refresh tokens are revoked immediately and a new token pair is issued. Use this when implementing a "change password" flow in your integration.
+
+```
+PUT /api/auth/password
+```
+
+<ParamField body="currentPassword" type="string" required>
+  The user's current password. This is verified before the change is applied.
+</ParamField>
+
+<ParamField body="newPassword" type="string" required>
+  The new password (minimum 8 characters).
+</ParamField>
+
+```bash
+curl -X PUT https://lms.plotka.me/api/auth/password \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"currentPassword": "old-pass", "newPassword": "new-secure-pass"}'
+```
+
+**Response (200)** — returns a new token pair since all old refresh tokens are revoked:
+
+```json
+{
+  "success": true,
+  "message": "Password changed successfully",
+  "token": "eyJhbGci...",
+  "refreshToken": "bmV3cmVm..."
+}
+```
+
+## Enroll in a course using a token
+
+Enrolls the authenticated user in a course using a time-limited enrollment token. Tokens are created and distributed by instructors (via QR code or direct link). This endpoint is the programmatic equivalent of visiting the enrollment URL.
+
+```
+POST /api/enrollment-tokens/complete
+```
+
+<ParamField body="token" type="string" required>
+  The enrollment token value from the instructor-generated QR code or link (the path segment in `/enroll/:token`).
+</ParamField>
+
+<ParamField body="session" type="string" required>
+  A Base64-encoded session blob obtained from the Discord OAuth callback. This is handled automatically by the Learning In Stride web app during the enrollment flow.
+</ParamField>
+
+<ParamField body="rcsId" type="string">
+  RPI RCS ID (e.g., `smitha7`). Stored on the account if not already set.
+</ParamField>
+
+<ParamField body="githubUsername" type="string">
+  GitHub username. Stored on the account if not already set.
+</ParamField>
+
+<ParamField body="rin" type="string">
+  9-digit RPI Identification Number. Stored on the account if not already set.
+</ParamField>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "enrolled": true,
+  "courseCode": "ITWS 4100",
+  "courseName": "Web Systems Development",
+  "semesterName": "Spring 2026"
+}
+```
+
+<Warning>
+  Enrollment tokens can have a maximum-use count and an expiry date. If the token is expired, inactive, or has reached its maximum uses, the endpoint returns `400 Bad Request` with a descriptive error. Contact your instructor for a new token.
+</Warning>
+
+## Look up an enrollment token
+
+Validates an enrollment token and returns course information before the student completes the enrollment flow. This endpoint is public and does not require authentication.
+
+```
+GET /api/enrollment-tokens/public/:token
+```
+
+<ParamField path="token" type="string" required>
+  The enrollment token value.
+</ParamField>
+
+```bash
+curl "https://lms.plotka.me/api/enrollment-tokens/public/abc123xyz"
+```
+
+**Response (200)**
+
+```json
+{
+  "valid": true,
+  "course": {
+    "code": "ITWS 4100",
+    "name": "Web Systems Development",
+    "semester": "Spring 2026",
+    "instructor": "Dr. Jane Doe"
+  },
+  "discordOAuthUrl": "https://discord.com/api/oauth2/authorize?...",
+  "hasDiscordRole": true
+}
+```
+
+If the token is invalid, expired, or exhausted:
+
+```json
+{
+  "valid": false,
+  "error": "This enrollment link has expired"
+}
+```

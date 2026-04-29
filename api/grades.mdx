@@ -1,0 +1,283 @@
+---
+title: "REST API endpoints for grades in Learning In Stride"
+description: "Retrieve per-course grades with weighted category breakdowns, cross-course grade summaries, and submit grade inquiries to your instructor."
+---
+
+The grades API returns student grade data with the course's configured grade-weight categories applied, giving you both raw point totals and computed letter grades. Grades are only visible to the student who owns them; instructors can view grades through the hub endpoints. Grade weights are configured per course semester and map assignment types (such as `LAB` or `HOMEWORK`) to percentage categories.
+
+## Get grades for a course semester
+
+Returns the detailed grade breakdown for the authenticated student in a specific course semester. The response groups assignments by grade-weight category and calculates a weighted percentage for each. Only assignments with grades that have been released by the instructor are included in the percentage calculation.
+
+```
+GET /api/student/grades/:courseSemesterId
+```
+
+<ParamField path="courseSemesterId" type="string" required>
+  The course-semester ID. Find this as `data.id` from `GET /api/courses/:slug/:semesterCode`.
+</ParamField>
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/student/grades/clx1cs01 \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch(
+  "https://lms.plotka.me/api/student/grades/clx1cs01",
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+const data = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "courseSemester": {
+    "id": "clx1cs01",
+    "course": { "title": "Web Systems Development", "codes": [{ "code": "ITWS 4100" }] },
+    "semester": { "code": "SP2026", "name": "Spring 2026" }
+  },
+  "grade": {
+    "percentage": 88.5,
+    "letter": "B+",
+    "totalEarned": 265,
+    "totalPossible": 300,
+    "gradedCount": 3,
+    "totalAssignments": 10,
+    "submittedCount": 4,
+    "pendingGradeCount": 1,
+    "notSubmittedCount": 3,
+    "upcomingCount": 3
+  },
+  "categories": [
+    {
+      "category": "Assignments",
+      "weight": 40,
+      "average": 91.0,
+      "earnedPoints": 91,
+      "possiblePoints": 100,
+      "assignments": [
+        {
+          "id": "assign1",
+          "title": "Homework 1: HTML & CSS",
+          "type": "ASSIGNMENT",
+          "maxPoints": 100,
+          "dueDate": "2026-02-10T00:00:00.000Z",
+          "submission": {
+            "id": "sub1",
+            "submittedAt": "2026-02-10T22:14:00.000Z",
+            "isLate": false,
+            "grade": {
+              "score": 91,
+              "maxScore": 100,
+              "percentage": 91.0,
+              "feedback": "Great work on the responsive layout.",
+              "gradedAt": "2026-02-13T15:00:00.000Z",
+              "isReleased": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+<ResponseField name="grade.percentage" type="number | null">
+  Weighted overall percentage. `null` when no grade weights are configured for the course or no grades have been released yet.
+</ResponseField>
+
+<ResponseField name="grade.letter" type="string | null">
+  Letter grade derived from `percentage` using the course's custom grade scale, or `null` if no percentage is available.
+</ResponseField>
+
+<ResponseField name="grade.pendingGradeCount" type="number">
+  Assignments submitted by the student but not yet graded by the instructor.
+</ResponseField>
+
+<ResponseField name="categories" type="array">
+  Assignments grouped by grade-weight category. Each entry includes the category name, its weight (percentage of final grade), an average score for graded items, and the full list of assignments.
+</ResponseField>
+
+<ResponseField name="categories[].assignments[].submission" type="object | null">
+  `null` if the student has not submitted the assignment. When present, the `grade` key is `null` until the instructor releases the grade.
+</ResponseField>
+
+## Get overall grade summary
+
+Returns a cross-course grade summary for every course the authenticated student is enrolled in. Useful for building a grades overview dashboard.
+
+```
+GET /api/student/grades/summary
+```
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/student/grades/summary \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/student/grades/summary", {
+  headers: { Authorization: `Bearer ${token}` },
+});
+const { summary } = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "summary": {
+    "overall": {
+      "average": 86.3,
+      "coursesWithGrades": 2,
+      "totalCourses": 3
+    },
+    "courses": [
+      {
+        "courseSemesterId": "clx1cs01",
+        "courseCode": "ITWS 4100",
+        "courseTitle": "Web Systems Development",
+        "semesterName": "Spring 2026",
+        "semesterCode": "SP2026",
+        "color": "#c41230",
+        "grade": {
+          "percentage": 88.5,
+          "letter": "B+",
+          "totalEarned": 265,
+          "totalPossible": 300,
+          "gradedCount": 3,
+          "totalAssignments": 10,
+          "submittedCount": 4,
+          "pendingGradeCount": 1,
+          "notSubmittedCount": 3,
+          "upcomingCount": 3
+        }
+      }
+    ]
+  }
+}
+```
+
+<ResponseField name="summary.overall.average" type="number | null">
+  Simple average of all per-course percentage grades. `null` if no grades have been released in any course.
+</ResponseField>
+
+<ResponseField name="summary.courses" type="array">
+  One entry per enrollment, ordered by semester start date descending (most recent first).
+</ResponseField>
+
+## Submit a grade inquiry
+
+If you believe a grade was assigned in error, submit a grade inquiry. The inquiry creates a threaded conversation between you and the grading staff for the course. You must supply the submission ID from your assignment submission record.
+
+```
+POST /api/inquiries
+```
+
+<ParamField body="submissionId" type="string" required>
+  The submission ID from your assignment submission (`submission.id` in the assignment response).
+</ParamField>
+
+<ParamField body="category" type="string" required>
+  The type of inquiry. Common values: `GRADING_ERROR`, `MISSING_POINTS`, `RUBRIC_QUESTION`, `OTHER`.
+</ParamField>
+
+<ParamField body="subject" type="string" required>
+  A short subject line for the inquiry thread.
+</ParamField>
+
+<ParamField body="initialMessage" type="string" required>
+  Your explanation of why you are disputing the grade. Be specific about which criteria you believe were applied incorrectly.
+</ParamField>
+
+<CodeGroup>
+```bash cURL
+curl -X POST https://lms.plotka.me/api/inquiries \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "submissionId": "sub1",
+    "category": "GRADING_ERROR",
+    "subject": "Points deducted for requirement I fulfilled",
+    "initialMessage": "My submission implements responsive design using CSS Grid on lines 45-60 of style.css, but points were deducted for this requirement."
+  }'
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/inquiries", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    submissionId: "sub1",
+    category: "GRADING_ERROR",
+    subject: "Points deducted for requirement I fulfilled",
+    initialMessage: "My submission implements responsive design...",
+  }),
+});
+const { inquiry } = await res.json();
+```
+</CodeGroup>
+
+**Response (201)**
+
+```json
+{
+  "success": true,
+  "inquiry": {
+    "id": "inq1",
+    "status": "OPEN",
+    "category": "GRADING_ERROR",
+    "subject": "Points deducted for requirement I fulfilled",
+    "submissionId": "sub1",
+    "createdAt": "2026-02-14T10:30:00.000Z"
+  }
+}
+```
+
+<ResponseField name="inquiry.id" type="string">
+  Inquiry ID. Use this to add follow-up messages at `POST /api/inquiries/:id/messages`.
+</ResponseField>
+
+<ResponseField name="inquiry.status" type="string">
+  Inquiry lifecycle status. Possible values: `OPEN`, `IN_REVIEW`, `RESOLVED`, `CLOSED`.
+</ResponseField>
+
+## List your grade inquiries
+
+Returns all grade inquiries submitted by the authenticated student, with optional filters.
+
+```
+GET /api/inquiries/student
+```
+
+<ParamField query="courseSemesterId" type="string">
+  Filter by course semester ID.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by inquiry status: `OPEN`, `IN_REVIEW`, `RESOLVED`, or `CLOSED`.
+</ParamField>
+
+<ParamField query="limit" type="number">
+  Maximum results to return. Defaults to `20`.
+</ParamField>
+
+<ParamField query="offset" type="number">
+  Pagination offset. Defaults to `0`.
+</ParamField>
+
+<Note>
+  Grade percentages are recalculated on every request using live data. If your instructor has not yet released grades for an assignment, that assignment is excluded from the percentage calculation but counted in `pendingGradeCount`.
+</Note>

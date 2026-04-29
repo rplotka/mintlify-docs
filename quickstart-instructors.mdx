@@ -1,0 +1,102 @@
+---
+title: "Get Started with Learning In Stride as an Instructor"
+description: "Sign up for an instructor account, complete billing, run the Course Setup Wizard, and share enrollment tokens so students can join your course."
+---
+
+Learning In Stride gives RPI ITWS instructors a unified Hub for managing courses, rosters, grading, and scheduling. This guide covers the instructor-specific signup flow, how to build your first course with the Course Setup Wizard, and how to invite students using enrollment tokens.
+
+<Steps>
+  <Step title="Create an instructor account">
+    Instructor accounts use a separate signup page from regular student registration. Navigate to `/professor-signup` (or follow the link from the pricing page) to begin.
+
+    Select a plan before you reach the form. Available plans are:
+
+    | Plan | Monthly price |
+    |------|--------------|
+    | Basic | $29/mo |
+    | Pro | $59/mo |
+    | Premium | $99/mo |
+    | Platinum | $149/mo |
+    | Founding Instructor | $49/mo |
+
+    All plans include a **14-day free trial**. Annual billing saves an additional 15% on any plan.
+
+    <Note>
+      If you sign up with an `@rpi.edu` email address, a 15% academic discount is applied to your subscription automatically.
+    </Note>
+
+    Fill in your full name, institutional email, institution name (optional), and a password of at least 8 characters. Choose monthly or annual billing, then click **Continue to Payment**. You will be redirected to Stripe Checkout to complete the transaction. After payment, you land on the onboarding screen.
+  </Step>
+
+  <Step title="Complete account verification">
+    After payment, Learning In Stride redirects you to `/onboarding` where you link your instructor account to your RPI identity.
+
+    - **RIN** (required) — your 9-digit RPI Identification Number.
+    - **RCS ID** (required) — your RCS username (e.g., `plotkr`). If you used RPI Shibboleth to sign up, this field is pre-verified and locked.
+    - **Preferred name**, **pronouns**, **Discord username**, and **GitHub username** are optional but recommended.
+
+    Click **Complete Setup**. Instructors with the `PROFESSOR` role are redirected to the Staff Dashboard at `/admin/staff` rather than the student dashboard.
+
+    <Tip>
+      Connect your Discord account during onboarding. The enrollment token flow grants students access to your course's Discord server automatically, so your Discord server must be configured before you distribute tokens.
+    </Tip>
+  </Step>
+
+  <Step title="Run the Course Setup Wizard">
+    From the Staff Dashboard, open the **Course Setup Wizard** (`/admin/course-setup-wizard`). The wizard walks you through six sequential steps to get your course ready for the semester:
+
+    1. **Academic Calendar** — loads semester dates (classes start/end, finals start/end) directly from the RPI academic calendar. Confirm or adjust the parsed dates.
+    2. **Select Courses** — choose the course or courses you are teaching this semester from the course catalog. Cross-listed sections can be grouped into a single course card.
+    3. **Build Schedule** — copy the class schedule from a previous semester or build one from scratch. Each week's meeting pattern and class days are populated automatically from the RPI class hour schedule.
+    4. **Import Students** — upload your SIS roster file and optional student photos. Learning In Stride parses the roster and pre-populates your enrollment list.
+    5. **Publish Course** — flip the course to visible so students can see it on their dashboards and in enrollment links. You can keep the course hidden while still generating enrollment tokens.
+    6. **Course Tools** — access schedule management, grading configuration, and enrollment tools from a single panel.
+
+    Each step shows a progress indicator. You can return to any completed step to make changes.
+  </Step>
+
+  <Step title="Invite students with enrollment tokens">
+    Go to the **Hub** (`/hub`) or the enrollment section of Course Tools. Generate an enrollment token for your course. Each token is tied to a specific course and semester.
+
+    Share the generated link (or QR code) with your students. When a student opens the link:
+
+    1. Learning In Stride validates the token and displays your course code, name, semester, and your name.
+    2. The student connects their Discord account.
+    3. The platform adds them to the class Discord server, assigns the course role, and optionally assigns a team role.
+    4. Their profile information is saved and linked to your course roster.
+
+    <Warning>
+      Enrollment tokens are public URLs. Anyone with the link can attempt to enroll. Students whose RIN does not match the imported roster are placed in a pending state and require your manual approval before they can access course content.
+    </Warning>
+
+    You can view pending approvals, active enrollments, and enrollment activity from the Hub at any time.
+  </Step>
+
+  <Step title="Manage your courses from the Hub">
+    The Staff Dashboard at `/admin/staff` is your day-to-day command center. It shows:
+
+    - **Course filter pills** at the top — quickly scope all widgets to a single course or view all courses at once. Cross-listed sections appear as a combined pill (e.g., `ITWS 4100 / 6800`).
+    - **Stat cards** — total enrolled students, pending approvals, average grade, and upcoming due dates, all scoped to your selected course.
+    - **Teaching Agenda** — your upcoming class sessions pulled from Schedule Master.
+    - **Grading Queue** — assignments awaiting grading, sorted by due date.
+    - **At-Risk panel** — students whose grade or engagement signals suggest they need outreach.
+    - **Recent Activity** — a feed of submissions, enrollments, and grade events.
+
+    Each course card links out directly to the dedicated editor for that data: assignments open the assignment manager, grades open the grading roster, schedule opens the Schedule Center.
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card title="Course Setup Wizard" icon="wand-magic-sparkles" href="/instructors/course-setup">
+    Detailed reference for every step in the Course Setup Wizard.
+  </Card>
+  <Card title="Enrollment tokens" icon="ticket" href="/instructors/course-setup">
+    Generate, share, revoke, and audit enrollment tokens for your courses.
+  </Card>
+  <Card title="Grading and rubrics" icon="clipboard-list" href="/instructors/grading">
+    Configure grade weights, manage rubrics, and use the AI Grading Assistant.
+  </Card>
+  <Card title="Staff Dashboard (Hub)" icon="gauge" href="/instructors/course-setup">
+    Full reference for every widget and filter on the Staff Dashboard.
+  </Card>
+</CardGroup>

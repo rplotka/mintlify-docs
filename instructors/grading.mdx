@@ -1,0 +1,133 @@
+---
+title: 'Grade Assignments and Manage Student Grades'
+description: 'Use Speed Grader for per-submission review, the Grading Command Center for bulk work, and the Student Grades roster to track class-wide performance.'
+---
+
+Learning In Stride provides two grading surfaces: **Speed Grader** for reviewing individual submissions with inline feedback, and the **Grading Command Center** for managing grade distribution and team workload at scale.
+
+## Speed Grader
+
+Speed Grader opens when you click **Grade** on any assignment in the assignment manager. It displays one submission at a time in a three-panel layout:
+
+| Panel | Content |
+|---|---|
+| Left | Submission preview (text, file, or URL) |
+| Center | Rubric scoring or simple score input |
+| Right | AI Chat, Grade History, or Student context |
+
+### Navigating submissions
+
+Use the arrow buttons in the header to move between submissions, or use keyboard shortcuts:
+
+| Action | Shortcut |
+|---|---|
+| Previous submission | `←` or `k` |
+| Next submission | `→` or `j` |
+| Save grade | `⌘S` |
+| Save and advance | `⌘Enter` |
+
+The progress indicator in the header shows how many submissions you have graded out of the total (e.g., `12 / 34`).
+
+### Rubric-based grading
+
+When the assignment has a rubric, the center panel shows each rubric category and its criteria. Click the score for each criterion to fill in your assessment. The total calculates automatically as you score.
+
+Use the **feedback** field below the rubric to write a comment that students will see alongside their score.
+
+### Point-based grading
+
+If the assignment has no rubric, the center panel shows a single numeric score field. Enter a value up to the assignment's maximum points, add optional feedback, and save.
+
+### The side panel
+
+Toggle the side panel with the icon in the header (or the floating button on mobile). Three tabs are available:
+
+- **AI Chat** — ask the AI questions about the current submission. Use **Insert Feedback** on any AI response to append it directly to the feedback field. Requires an AI add-on.
+- **History** — a timeline of all previous grades and feedback for this submission, including AI-suggested scores and human overrides.
+- **Student** — aggregated context for the student: overall grade, participation score, prior submissions, and any at-risk flags.
+
+### Late submissions
+
+Submissions past the due date are labeled **Late** in the student info bar. The late penalty defined for the assignment applies automatically when you save the grade. The grade history records the raw score and the post-penalty score separately.
+
+### Saving grades
+
+Click **Save** to record the grade without advancing, or **Save & Next** to record and move to the next submission. Grades saved in Speed Grader are immediately visible to students unless the assignment is set to hide grades until a release date.
+
+## Grading Command Center
+
+Access the Grading Command Center from **Hub → Grading** (available to Instructors, TAs, and Graders).
+
+**Instructors** see a course-wide overview: grading progress per assignment, distribution of work among TAs and Graders, and overall completion percentages.
+
+**TAs and Graders** see their personal assignment queue, progress statistics, and any grading threads assigned to them.
+
+Use the Grading Command Center to:
+- Identify which assignments still have ungraded submissions.
+- Distribute grading work to TAs and Graders.
+- Monitor team progress without opening individual assignments.
+
+## Student Grades roster
+
+Go to **Admin → Courses → [course] → Grades** to see the full grade roster for a course. The roster shows:
+
+- Each student's overall grade percentage and letter-grade performance level (A, B, C, D, F).
+- A mini trend line showing weekly assignment score trajectory.
+- Participation score based on Discord activity and attendance.
+- Grade count (number of graded items contributing to the average).
+
+**Filters and sorting** — search by name, RCS ID, or RIN. Filter by performance level. Sort by grade, name, or participation score.
+
+**Student detail panel** — click any student to open a side panel with their full grade breakdown across assignments, presentations, and participation.
+
+## Grade weights and categories
+
+Final grade weights are managed through the **Final Grading** section of your course settings. Navigate to **Admin → Courses → [course] → Grading → Grade Weights**. From there you can:
+
+- Define grade categories (e.g., Assignments, Presentations, Participation).
+- Set the percentage weight for each category.
+- Review the calculated final grade for each student.
+
+The weights you configure apply to all final grade calculations for the course semester.
+
+## Exporting grades
+
+Go to **Admin → Export** to download grade data. Available formats include CSV and Excel. You can export:
+
+- All grades for a single assignment.
+- Full gradebook for a course (all categories, all students).
+- Aggregated final grades ready for SIS submission.
+
+<Tip>
+  Run an export before the grade submission deadline as a backup. The export reflects grades at the moment of download.
+</Tip>
+
+## Handling grade inquiries
+
+When a student questions a grade, open Speed Grader for their submission and review the **History** tab. The timeline shows each scoring event — including who graded, when, and whether an AI suggestion was accepted or overridden — giving you a complete audit trail to share with the student.
+
+To update a grade after the initial save, simply re-open Speed Grader and enter a new score. The history tab records the change.
+
+<AccordionGroup>
+  <Accordion title="Can TAs grade without seeing other students' scores?">
+    Yes. TAs see only the submissions in their queue and do not have access to the full grade roster unless you grant them an Instructor role.
+  </Accordion>
+  <Accordion title="How does the overall grade calculate?">
+    The overall grade shown in the Student Grades roster is a weighted average of all graded items, based on the grade weights you configured. Items with no grade yet are excluded from the running average.
+  </Accordion>
+  <Accordion title="What happens if I change a rubric after grading starts?">
+    Changing rubric criteria after submissions have been graded may cause the calculated total to shift. Review existing grades in the Speed Grader history before modifying a live rubric.
+  </Accordion>
+  <Accordion title="Are grades visible to students immediately?">
+    Yes, by default. If you want to batch-release grades (e.g., after all submissions are graded), set a grade release date on the assignment before any grades are saved.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="AI Grading" icon="sparkles" href="/instructors/ai-grading">
+    Accelerate grading with AI suggestions and batch grading.
+  </Card>
+  <Card title="Assignments" icon="clipboard-list" href="/instructors/assignments">
+    Create assignments and rubrics that feed into grading.
+  </Card>
+</CardGroup>

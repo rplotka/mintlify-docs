@@ -1,0 +1,269 @@
+---
+title: "REST API endpoints for courses in Learning In Stride"
+description: "List and retrieve courses, access semester-specific details, and fetch enrollment data. Role-based visibility rules apply to all course endpoints."
+---
+
+The courses API gives you access to the catalog of RPI ITWS courses available in Learning In Stride. What you can see depends on your role: students see only the courses they are enrolled in, while instructors and administrators see all courses across all semesters. All course endpoints require a valid JWT token — anonymous requests always return an empty list.
+
+## List courses
+
+Returns the courses visible to the authenticated user. Students receive only their enrolled courses, grouped by course with a `semesters` array per course. Staff receive all courses with all associated semesters.
+
+```
+GET /api/courses
+```
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/courses \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/courses", {
+  headers: { Authorization: `Bearer ${token}` },
+});
+const { courses } = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "courses": [
+    {
+      "id": "clx1course01",
+      "slug": "itws4100",
+      "title": "Web Systems Development",
+      "description": "Full-stack development with modern web technologies.",
+      "codes": [{ "code": "ITWS 4100" }],
+      "semesters": [
+        {
+          "id": "clx1cs01",
+          "isPublished": true,
+          "semester": {
+            "id": "clx1sem01",
+            "code": "SP2026",
+            "name": "Spring 2026"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+<ResponseField name="courses" type="array">
+  Array of course objects visible to the authenticated user.
+</ResponseField>
+
+<ResponseField name="courses[].id" type="string">
+  Unique course identifier (CUID).
+</ResponseField>
+
+<ResponseField name="courses[].slug" type="string">
+  URL-friendly course identifier used in path parameters throughout the API (e.g., `"itws4100"`).
+</ResponseField>
+
+<ResponseField name="courses[].title" type="string">
+  Human-readable course title.
+</ResponseField>
+
+<ResponseField name="courses[].description" type="string | null">
+  Course description, or `null` if not set.
+</ResponseField>
+
+<ResponseField name="courses[].codes" type="array">
+  One or more course codes (e.g., `[{ "code": "ITWS 4100" }]`). Cross-listed courses have multiple codes.
+</ResponseField>
+
+<ResponseField name="courses[].semesters" type="array">
+  The semesters this course is offered in, each with a `courseSemester` ID and a nested semester object.
+</ResponseField>
+
+## Get course by slug
+
+Returns full details for a single course identified by its URL slug. Students only see this endpoint succeed for courses they are enrolled in; staff see all semesters unconditionally.
+
+```
+GET /api/courses/:slug
+```
+
+<ParamField path="slug" type="string" required>
+  The URL-friendly course identifier (e.g., `itws4100`). You can find slugs in the list-courses response.
+</ParamField>
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/courses/itws4100 \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/courses/itws4100", {
+  headers: { Authorization: `Bearer ${token}` },
+});
+const { course } = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "course": {
+    "id": "clx1course01",
+    "slug": "itws4100",
+    "title": "Web Systems Development",
+    "description": "Full-stack development with modern web technologies.",
+    "codes": [{ "code": "ITWS 4100" }],
+    "semesters": [
+      {
+        "id": "clx1cs01",
+        "isPublished": true,
+        "semester": { "id": "clx1sem01", "code": "SP2026", "name": "Spring 2026" },
+        "meetings": [
+          {
+            "dayOfWeek": 1,
+            "startTime": "10:00",
+            "endTime": "11:50",
+            "location": "Sage 3101",
+            "meetingType": "LECTURE"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Get course semester details
+
+Returns control data (grade weights, course metadata) for a specific course-semester pair. Schedule week data is fetched in real time from the Schedule Master service. Students must be enrolled; staff see all published and unpublished semesters.
+
+```
+GET /api/courses/:slug/:semesterCode
+```
+
+<ParamField path="slug" type="string" required>
+  The URL-friendly course identifier (e.g., `itws4100`).
+</ParamField>
+
+<ParamField path="semesterCode" type="string" required>
+  The semester code (e.g., `SP2026`, `FA2025`). You can find valid codes in the semesters list.
+</ParamField>
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/courses/itws4100/SP2026 \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/courses/itws4100/SP2026", {
+  headers: { Authorization: `Bearer ${token}` },
+});
+const data = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "clx1cs01",
+    "isPublished": true,
+    "color": "#c41230",
+    "course": {
+      "id": "clx1course01",
+      "slug": "itws4100",
+      "title": "Web Systems Development",
+      "codes": [{ "code": "ITWS 4100" }]
+    },
+    "semester": {
+      "id": "clx1sem01",
+      "code": "SP2026",
+      "name": "Spring 2026",
+      "classesStart": "2026-01-20T00:00:00.000Z",
+      "classesEnd": "2026-05-01T00:00:00.000Z"
+    },
+    "gradeWeights": [
+      { "id": "gw1", "category": "Assignments", "weight": 40, "sortOrder": 1 },
+      { "id": "gw2", "category": "Participation", "weight": 20, "sortOrder": 2 },
+      { "id": "gw3", "category": "Final Project", "weight": 40, "sortOrder": 3 }
+    ]
+  }
+}
+```
+
+<ResponseField name="data.id" type="string">
+  The `courseSemesterId` — the unique ID for this course-semester pairing. Use this as the `courseSemesterId` parameter in assignment and grade endpoints.
+</ResponseField>
+
+<ResponseField name="data.isPublished" type="boolean">
+  Whether the course semester is publicly visible to enrolled students.
+</ResponseField>
+
+<ResponseField name="data.color" type="string | null">
+  Hex color code used for UI display of this course.
+</ResponseField>
+
+<ResponseField name="data.gradeWeights" type="array">
+  Ordered list of grade weight categories and their percentage contribution to the final grade.
+</ResponseField>
+
+## List enrollments for current user
+
+Returns all active enrollments for the authenticated user, including full course and semester details. This is the canonical way for a student or staff member to see which courses they are a member of.
+
+```
+GET /api/courses/my/enrollments
+```
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/courses/my/enrollments \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/courses/my/enrollments", {
+  headers: { Authorization: `Bearer ${token}` },
+});
+const { data, meta } = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "enroll1",
+      "role": "STUDENT",
+      "courseSemester": {
+        "id": "clx1cs01",
+        "course": {
+          "id": "clx1course01",
+          "slug": "itws4100",
+          "title": "Web Systems Development",
+          "codes": [{ "code": "ITWS 4100" }]
+        },
+        "semester": { "code": "SP2026", "name": "Spring 2026" }
+      }
+    }
+  ],
+  "meta": { "count": 1 }
+}
+```
+
+<Note>
+  Cross-listed courses (e.g., ITWS 4100 / ITWS 6800) share a common schedule and assignments. If you are enrolled in either section, you will see items from both under your primary enrollment.
+</Note>

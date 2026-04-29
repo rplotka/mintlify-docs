@@ -1,0 +1,112 @@
+{
+  "projectType": "saas",
+  "projectName": "Learning In Stride",
+  "projectDescription": "A modern Learning Management System for RPI ITWS courses that gives students, instructors, and teaching assistants a unified platform for schedules, assignments, grading, AI-assisted feedback, and exam preparation.",
+  "theme": "almond",
+  "primaryColor": "#8c8c8c",
+  "lightColor": "#171818",
+  "darkColor": "#d3d3d3",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart-students",
+              "quickstart-instructors"
+            ]
+          },
+          {
+            "group": "For Students",
+            "pages": [
+              "students/dashboard",
+              "students/assignments",
+              "students/grades",
+              "students/exam-prep",
+              "students/growth-journey"
+            ]
+          },
+          {
+            "group": "For Instructors",
+            "pages": [
+              "instructors/course-setup",
+              "instructors/assignments",
+              "instructors/grading",
+              "instructors/ai-grading",
+              "instructors/schedule"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "features/discord-integration",
+              "features/gamification",
+              "features/course-builder",
+              "features/billing"
+            ]
+          },
+          {
+            "group": "Account & Settings",
+            "pages": [
+              "account/authentication",
+              "account/profile",
+              "account/notifications"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api/courses",
+              "api/assignments",
+              "api/grades",
+              "api/schedule",
+              "api/users"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Student dashboard with assignment tracking and grade monitoring",
+    "Instructor course management with schedule editor",
+    "AI-assisted grading and rubric generation",
+    "Series 7 exam preparation with question bank and study plans",
+    "Discord integration for course communication and participation tracking",
+    "Gamification with points, achievements, and leaderboards",
+    "AI Course Builder for generating course content",
+    "Flexible billing with self-service and enterprise plans",
+    "Calendar subscription and iCal export",
+    "Box cloud storage integration for assignment files"
+  ],
+  "publicApiSurface": [
+    "GET /health — Service health check",
+    "POST /api/auth/login — JWT authentication",
+    "POST /api/auth/register — User registration",
+    "GET /api/courses — List courses",
+    "GET /api/courses/:id — Course details",
+    "GET /api/assignments — List assignments",
+    "POST /api/assignments/:id/submit — Submit assignment",
+    "GET /api/grades — Student grades",
+    "GET /api/schedule/semesters/:semesterCode/calendar — Academic calendar events",
+    "GET /api/notifications — User notifications",
+    "POST /api/enrollment-tokens/enroll — Enroll in course",
+    "GET /api/hub/courses — Hub course listing",
+    "GET /api/hub/grades — Aggregated grade view"
+  ]
+}

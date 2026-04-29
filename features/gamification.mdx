@@ -1,0 +1,139 @@
+---
+title: 'Gamification: Points, Badges, and Streaks'
+description: 'Learn how Learning In Stride uses points, achievement badges, streaks, and a leaderboard to keep students engaged throughout the semester.'
+---
+
+Learning In Stride includes a built-in gamification system that translates everyday academic activity — submitting assignments, attending class, contributing on Discord — into a running XP (experience points) score. Students accumulate XP to climb levels, unlock achievement badges, maintain activity streaks, and compete on a course leaderboard. Instructors control every aspect of the system per course.
+
+## How points are earned
+
+Points flow from five categories. Each category can be independently enabled or disabled, and every point value is configurable by the instructor.
+
+<CardGroup cols={2}>
+  <Card title="Submission points" icon="file">
+    Students earn points when they submit an assignment. On-time submissions award a positive amount (default: **+5 pts**). Late submissions deduct points (default: **-2 pts**).
+  </Card>
+  <Card title="Early submission bonus" icon="clock">
+    For every full day an assignment is submitted before the deadline, students earn a per-day bonus (default: **+3 pts/day**). This incentivizes starting work early.
+  </Card>
+  <Card title="Grade points" icon="graduation-cap">
+    When a grade is released, students earn points proportional to their score. The formula is `grade% ÷ grade_divisor`. With the default divisor of 10, a 90% earns 9 pts and a 100% earns 10 pts.
+  </Card>
+  <Card title="Discord activity points" icon="message-square">
+    Messages, threads, and replies in the course Discord server each award points (defaults: **+1 pt** per message, **+2 pts** per thread started, **+1 pt** per reply).
+  </Card>
+  <Card title="Participation points" icon="users">
+    Daily participation scores from the instructor feed into XP. Score 3 is the baseline (0 pts by default). Higher scores earn positive points; lower scores deduct them. Exact values per score level (0–5) are fully configurable.
+  </Card>
+</CardGroup>
+
+<Note>
+  All point values above are defaults. Your instructor may have configured different values for your specific course.
+</Note>
+
+## Rewards students can earn
+
+Beyond raw XP, students can redeem points in the XP Shop (if enabled by the instructor) for tangible academic benefits:
+
+| Reward | Description |
+|---|---|
+| **Late Day** | Extends a single assignment deadline by one day. Up to 3 per semester by default. |
+| **Class Skip** | Grants one excused absence. Up to 2 per semester by default; may require instructor approval. |
+| **Bonus Points** | Adds extra credit to a graded assignment, up to a configured percentage cap. |
+| **Streak Freeze** | Protects an active streak for one day without requiring engagement. |
+
+The XP Shop unlocks at a minimum level set by the instructor (default: level 4).
+
+## Achievement badges
+
+Badges are awarded automatically when a student reaches a milestone. Examples of triggering conditions include:
+
+- **First Submission** — submitting any assignment for the first time in the course
+- **Perfect Score** — earning 100% on a graded assignment
+- **Early Bird** — submitting an assignment ahead of schedule
+- **Discord Contributor** — reaching a threshold of Discord messages
+- **Streak Milestone** — maintaining an activity streak for a set number of days (e.g., 14 days)
+
+Badges are visible on a student's Growth Journey page and on the course leaderboard.
+
+## Activity streaks
+
+A streak tracks how many consecutive days a student has engaged with the course. Engagement counts when a student submits work, posts in Discord, or receives a participation score above the baseline on a given day.
+
+- Streaks reset to zero if a student misses a day without a streak freeze active.
+- The default streak reward threshold is **14 days**: students who maintain a 14-day streak unlock a reward.
+- Instructors can change the reward threshold in Gamification Settings.
+
+<Tip>
+  Use streak freezes strategically. Save them for weekends or unavoidable conflicts rather than burning them early in the semester.
+</Tip>
+
+## The leaderboard
+
+The course leaderboard ranks all enrolled students by their total XP. Rankings update as points are awarded throughout the semester. Students can see where they stand relative to their peers, which course-wide achievements have been unlocked, and which students hold the longest active streaks.
+
+Instructors can view leaderboard data in the Gamification admin panel alongside aggregate analytics:
+
+- Total achievements and badges earned across all students
+- Number of students with active streaks and the average streak length
+- Total rewards redeemed (and a count of any pending approval requests)
+
+## The Growth Journey page
+
+The **Growth Journey** page is each student's personal view of their academic progress for a given course and semester. Access it from the course hub by clicking **Growth Journey**.
+
+The dashboard visualizes:
+
+- Current XP total and level
+- Badge collection earned so far
+- Active streak status
+- Point history over the semester
+- Leaderboard ranking
+
+It is designed to give students a clear, motivating picture of how their day-to-day effort compounds into academic progress.
+
+## Configuring gamification as an instructor
+
+Navigate to **Admin → Gamification Settings** and select your course from the dropdown. The configuration panel is organized into the following sections:
+
+<Steps>
+  <Step title="Enable gamification">
+    Toggle **Enable Gamification** on. This master switch must be on for any other setting to take effect.
+  </Step>
+  <Step title="Choose reward types">
+    Enable or disable each reward type: **Late Days**, **Class Skips**, **Bonus Points**, **Streak Freezes**, and the **XP Shop**. You can offer some rewards without others.
+  </Step>
+  <Step title="Configure point categories and values">
+    Turn each point category on or off (submissions, early bonus, grades, Discord activity, participation). Set the exact point amounts for each event, including negative values for late submissions or low participation scores.
+  </Step>
+  <Step title="Set limits and thresholds">
+    Configure caps on how many late days and class skips students can hold, the maximum bonus points percentage, the minimum level to unlock the XP Shop, and the streak length required to earn a reward.
+  </Step>
+  <Step title="Set approval requirements">
+    Optionally require instructor approval before a late day or class skip takes effect. Enable tiered late-day pricing to make each additional late day on the same assignment progressively more expensive in XP.
+  </Step>
+  <Step title="Save">
+    Click **Save Configuration**. Changes take effect immediately for all students in the course.
+  </Step>
+</Steps>
+
+<Warning>
+  Changing point values mid-semester does not retroactively recalculate existing scores. Students keep the points they already earned under the old configuration.
+</Warning>
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Can students see each other's point totals?">
+    Yes — the leaderboard is visible to all enrolled students. If you want a less competitive environment, you can disable the leaderboard display without disabling the underlying points system.
+  </Accordion>
+  <Accordion title="What happens to a class skip request that requires approval?">
+    The request appears in the **Reward Approval Queue** panel next to Gamification Settings. You can approve or deny each request individually. The student's absence is only marked as excused after approval.
+  </Accordion>
+  <Accordion title="Do gamification settings carry over when I re-teach a course?">
+    When you use the Course Builder to re-teach an existing course, gamification configuration is listed as an optional item in the session checklist. You can copy the previous semester's settings or configure new ones.
+  </Accordion>
+  <Accordion title="Is gamification enabled by default?">
+    No. Gamification is off by default for every course. You must explicitly enable it for each course semester you teach.
+  </Accordion>
+</AccordionGroup>

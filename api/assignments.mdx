@@ -1,0 +1,308 @@
+---
+title: "REST API endpoints for assignments in Learning In Stride"
+description: "List assignments for a course, retrieve individual assignment details, submit work via GitHub URL or file upload, and check submission status."
+---
+
+The assignments API lets you retrieve assignments scoped to a course semester, fetch detailed instructions for a specific assignment, and submit work. Submissions are tracked per student and gamification points are processed automatically after a successful submission.
+
+## List assignments for a course
+
+Returns all assignments for a given course semester. The response includes each assignment's due date, point value, type, and — when called with a student token — an enriched view with submission status and whether the submission window is still open.
+
+```
+GET /api/assignments/course/:courseSemesterId
+```
+
+<ParamField path="courseSemesterId" type="string" required>
+  The course-semester ID. You can find this as `data.id` in the course-semester detail response (`GET /api/courses/:slug/:semesterCode`).
+</ParamField>
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/assignments/course/clx1cs01 \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch(
+  "https://lms.plotka.me/api/assignments/course/clx1cs01",
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+const { data } = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "assign1",
+      "title": "Homework 1: HTML & CSS",
+      "type": "ASSIGNMENT",
+      "description": "Build a responsive landing page.",
+      "maxPoints": 100,
+      "dueDate": "2026-02-10",
+      "dueTime": "23:59",
+      "assignedDate": "2026-01-27",
+      "requiresGithub": true,
+      "isTeamAssignment": false
+    }
+  ],
+  "meta": { "count": 1 }
+}
+```
+
+<ResponseField name="data[].id" type="string">
+  Unique assignment identifier. Pass this as `:id` in all other assignment endpoints.
+</ResponseField>
+
+<ResponseField name="data[].title" type="string">
+  Assignment title.
+</ResponseField>
+
+<ResponseField name="data[].type" type="string">
+  Assignment type. Common values include `ASSIGNMENT`, `PROJECT`, `QUIZ`, `LAB`, `EXAM`.
+</ResponseField>
+
+<ResponseField name="data[].maxPoints" type="number">
+  Maximum points achievable on this assignment.
+</ResponseField>
+
+<ResponseField name="data[].dueDate" type="string | null">
+  Due date in `YYYY-MM-DD` format, or `null` if no due date is set.
+</ResponseField>
+
+<ResponseField name="data[].dueTime" type="string | null">
+  Due time in `HH:MM` (24-hour) format, or `null`.
+</ResponseField>
+
+<ResponseField name="data[].requiresGithub" type="boolean">
+  When `true`, the student must provide a GitHub repository URL to submit.
+</ResponseField>
+
+<ResponseField name="data[].isTeamAssignment" type="boolean">
+  When `true`, the assignment is submitted by a team rather than an individual.
+</ResponseField>
+
+## Get student assignment view
+
+Returns the full assignment with rendered instructions and contextual data for the authenticated student, including availability window, GitHub repo pre-population, and submission state.
+
+```
+GET /api/assignments/:id/student
+```
+
+<ParamField path="id" type="string" required>
+  The assignment ID from the list response.
+</ParamField>
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/assignments/assign1/student \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch(
+  "https://lms.plotka.me/api/assignments/assign1/student",
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+const { assignment, canSubmit, userGithubInfo } = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "assignment": {
+    "id": "assign1",
+    "title": "Homework 1: HTML & CSS",
+    "type": "ASSIGNMENT",
+    "description": "<p>Build a responsive landing page...</p>",
+    "maxPoints": 100,
+    "dueDate": "2026-02-10",
+    "dueTime": "23:59",
+    "requiresGithub": true,
+    "scheduleItem": {
+      "id": "assign1",
+      "dueDate": "2026-02-10",
+      "dueTime": "23:59",
+      "assignedDate": "2026-01-27",
+      "availabilityEndDate": "2026-02-11T05:00:00.000Z"
+    }
+  },
+  "canSubmit": true,
+  "userGithubInfo": {
+    "username": "alexsmith",
+    "repoName": "itws4100-sp2026-alexsmith",
+    "constructedUrl": "https://github.com/alexsmith/itws4100-sp2026-alexsmith"
+  }
+}
+```
+
+<ResponseField name="canSubmit" type="boolean">
+  `false` once the availability window (`availabilityEndDate`) has passed. Submissions are rejected server-side even if this is `true` due to clock skew.
+</ResponseField>
+
+<ResponseField name="userGithubInfo" type="object | null">
+  Pre-populated GitHub information based on the student's profile and enrollment. `null` if the student has not linked a GitHub account.
+</ResponseField>
+
+<ResponseField name="assignment.scheduleItem.availabilityEndDate" type="string | null">
+  ISO 8601 datetime after which the submission window closes permanently. `null` means there is no hard deadline enforced by the platform.
+</ResponseField>
+
+## Submit an assignment
+
+Submits the student's work for an assignment. Depending on the assignment type you provide a GitHub repository URL, a file reference, or a team ID. Only one submission mechanism is required per call.
+
+```
+POST /api/assignments/:id/submit
+```
+
+<ParamField path="id" type="string" required>
+  The assignment ID.
+</ParamField>
+
+<ParamField body="githubRepoUrl" type="string">
+  Full GitHub repository URL (e.g., `https://github.com/user/repo`). Required when `requiresGithub` is `true`.
+</ParamField>
+
+<ParamField body="teamId" type="string">
+  Team identifier for team assignments (`isTeamAssignment: true`).
+</ParamField>
+
+<ParamField body="boxFileUrl" type="string">
+  Box.com file URL for file-upload assignments.
+</ParamField>
+
+<ParamField body="fileName" type="string">
+  File name reference if using direct file storage.
+</ParamField>
+
+<ParamField body="useCachedVersion" type="boolean">
+  When `true`, submits the last server-side cached clone of the repository rather than fetching the latest commit. Useful when GitHub is temporarily unreachable.
+</ParamField>
+
+<CodeGroup>
+```bash cURL
+curl -X POST https://lms.plotka.me/api/assignments/assign1/submit \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"githubRepoUrl": "https://github.com/alexsmith/itws4100-sp2026-alexsmith"}'
+```
+
+```js JavaScript
+const res = await fetch(
+  "https://lms.plotka.me/api/assignments/assign1/submit",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      githubRepoUrl: "https://github.com/alexsmith/itws4100-sp2026-alexsmith",
+    }),
+  }
+);
+const data = await res.json();
+```
+</CodeGroup>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "submission": {
+    "id": "sub1",
+    "assignmentId": "assign1",
+    "submittedAt": "2026-02-10T22:14:00.000Z",
+    "isLate": false,
+    "status": "submitted"
+  }
+}
+```
+
+<ResponseField name="submission.id" type="string">
+  Unique submission ID. Use this to reference the submission in grade inquiries.
+</ResponseField>
+
+<ResponseField name="submission.isLate" type="boolean">
+  `true` if the submission was received after the assignment's due date.
+</ResponseField>
+
+<ResponseField name="submission.status" type="string">
+  Submission lifecycle status. Possible values: `submitted`, `graded`, `resubmitted`.
+</ResponseField>
+
+<Warning>
+  Once the `availabilityEndDate` has passed the server will reject submissions with `403 Forbidden`, regardless of what `canSubmit` returned. Always check `canSubmit` from the student view endpoint immediately before presenting the submission form.
+</Warning>
+
+## Get all student assignments with status
+
+Returns a comprehensive list for the authenticated student, merging assignment metadata with per-assignment submission status and statistics. This is the recommended endpoint for building a student assignments dashboard.
+
+```
+GET /api/assignments/course/:courseSemesterId/student
+```
+
+<ParamField path="courseSemesterId" type="string" required>
+  The course-semester ID.
+</ParamField>
+
+**Response (200)**
+
+```json
+{
+  "success": true,
+  "course": {
+    "id": "clx1cs01",
+    "code": "ITWS 4100",
+    "title": "Web Systems Development",
+    "slug": "itws4100",
+    "semester": "Spring 2026"
+  },
+  "assignments": [
+    {
+      "id": "assign1",
+      "title": "Homework 1: HTML & CSS",
+      "type": "ASSIGNMENT",
+      "maxPoints": 100,
+      "dueDate": "2026-02-10",
+      "hasSubmission": true,
+      "isGraded": false,
+      "isOverdue": false,
+      "canSubmit": false,
+      "submission": {
+        "id": "sub1",
+        "submittedAt": "2026-02-10T22:14:00.000Z",
+        "isLate": false,
+        "grade": null
+      }
+    }
+  ],
+  "stats": {
+    "total": 10,
+    "submitted": 3,
+    "graded": 2,
+    "pending": 1,
+    "overdue": 1
+  }
+}
+```
+
+<ResponseField name="stats" type="object">
+  Aggregated submission statistics for the course: total assignment count, how many are submitted, graded, pending review, or overdue.
+</ResponseField>
+
+<ResponseField name="assignments[].submission.grade" type="object | null">
+  `null` until graded. When a grade exists it contains `score`, `maxScore`, `percentage`, `feedback`, and `isFinalized`.
+</ResponseField>

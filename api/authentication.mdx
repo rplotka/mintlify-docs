@@ -1,0 +1,186 @@
+---
+title: "Authentication and token management for the LMS API"
+description: "How to obtain JWT tokens via email/password or Google OAuth, use them in requests, refresh them before expiry, and handle common auth errors."
+---
+
+Learning In Stride uses JWT Bearer tokens for authentication. You obtain a short-lived access token and a long-lived refresh token by logging in. Pass the access token in the `Authorization` header on every subsequent API call. When the access token expires, exchange the refresh token for a new pair without asking the user to log in again.
+
+## Login with email and password
+
+Send a `POST` request to `/api/auth/login` with your credentials. On success the response includes both an `access token` and a `refreshToken`.
+
+<CodeGroup>
+```bash cURL
+curl -X POST https://lms.plotka.me/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "you@rpi.edu", "password": "your-password"}'
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/auth/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email: "you@rpi.edu", password: "your-password" }),
+});
+const { token, refreshToken, user } = await res.json();
+```
+</CodeGroup>
+
+**Request body**
+
+<ParamField body="email" type="string" required>
+  A valid email address registered on the platform.
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  The account password (minimum 1 character on the login endpoint).
+</ParamField>
+
+**Successful response (200)**
+
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...",
+  "user": {
+    "id": "clx1abc123",
+    "email": "you@rpi.edu",
+    "name": "Alex Smith",
+    "role": "STUDENT",
+    "status": "APPROVED"
+  }
+}
+```
+
+<ResponseField name="token" type="string">
+  Short-lived JWT access token. Include this in the `Authorization: Bearer` header.
+</ResponseField>
+
+<ResponseField name="refreshToken" type="string">
+  Long-lived refresh token. Store this securely; use it only to obtain a new access token.
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  Public profile of the authenticated user. See the [Users](/api/users) page for the full user object schema.
+</ResponseField>
+
+### Two-factor authentication (2FA)
+
+If the account has 2FA enabled, the login response will look like this instead:
+
+```json
+{
+  "success": true,
+  "message": "2FA verification required",
+  "requiresTwoFactor": true,
+  "tempToken": "eyJhbGci..."
+}
+```
+
+Exchange the `tempToken` and a 6-digit TOTP code for a full session:
+
+```bash
+curl -X POST https://lms.plotka.me/api/auth/2fa/validate \
+  -H "Content-Type: application/json" \
+  -d '{"tempToken": "<tempToken>", "code": "123456"}'
+```
+
+<ParamField body="tempToken" type="string" required>
+  The temporary token returned by the login endpoint when 2FA is required.
+</ParamField>
+
+<ParamField body="code" type="string" required>
+  A 6-digit TOTP code from the user's authenticator app.
+</ParamField>
+
+## Google OAuth
+
+To authenticate with a Google account, redirect the user's browser to:
+
+```
+https://lms.plotka.me/api/auth/google
+```
+
+The platform handles the OAuth redirect flow and, on success, returns a JWT token to the configured redirect URI. This flow is browser-based and cannot be initiated from a server-side API call.
+
+## Using the token
+
+Attach the access token to every authenticated request in the `Authorization` header:
+
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+<CodeGroup>
+```bash cURL
+curl https://lms.plotka.me/api/auth/me \
+  -H "Authorization: Bearer <token>"
+```
+
+```js JavaScript
+const res = await fetch("https://lms.plotka.me/api/auth/me", {
+  headers: { Authorization: `Bearer ${token}` },
+});
+const { user } = await res.json();
+```
+</CodeGroup>
+
+## Refreshing an access token
+
+Access tokens are short-lived. When yours expires, call `POST /api/auth/refresh` with your refresh token to get a new pair. The platform uses refresh token rotation — the old refresh token is revoked and a brand-new one is issued.
+
+```bash
+curl -X POST https://lms.plotka.me/api/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d '{"refreshToken": "<your-refresh-token>"}'
+```
+
+```json
+{
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "bmV3cmVmcmVzaHRva2Vu..."
+}
+```
+
+<Warning>
+  Store your refresh token in a secure location. Each refresh token can only be used once. If the token has been revoked or has expired you will receive a `401` and the user must log in again.
+</Warning>
+
+## Logging out
+
+Call `POST /api/auth/logout` to invalidate all refresh tokens for the current session. The request must include a valid access token.
+
+```bash
+curl -X POST https://lms.plotka.me/api/auth/logout \
+  -H "Authorization: Bearer <token>"
+```
+
+```json
+{ "success": true }
+```
+
+## Get current user
+
+`GET /api/auth/me` returns the authenticated user's full profile, including 2FA status and linked accounts. It is identical in content to `GET /api/users/me`.
+
+```bash
+curl https://lms.plotka.me/api/auth/me \
+  -H "Authorization: Bearer <token>"
+```
+
+## Common authentication errors
+
+| Status | Error message | What it means |
+|--------|--------------|---------------|
+| `401` | `"Invalid credentials"` | Email not found or password incorrect. |
+| `401` | `"Invalid or expired refresh token"` | Refresh token has been used, revoked, or expired. |
+| `401` | `"Account is deactivated"` | The account has been disabled by an admin. |
+| `403` | `"Your account is pending approval"` | Registration submitted but not yet approved by staff. |
+| `403` | `"Your account registration was rejected"` | Account was rejected during review. |
+
+<Note>
+  If you receive a `403` with a pending status, contact your course instructor or wait for an admin to approve your account. You cannot bypass this check by refreshing tokens.
+</Note>

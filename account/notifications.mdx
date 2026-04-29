@@ -1,0 +1,203 @@
+---
+title: 'Configure Notifications in Learning In Stride'
+description: 'Control Learning In Stride email, push, and in-app notifications. Set quiet hours, choose a digest schedule, and mute deadline reminders per assignment.'
+---
+
+Learning In Stride notifies you about course activity through three channels: email, push notifications in the browser, and in-app alerts visible when you are signed in. You control exactly which events trigger which channels, and you can silence specific assignments or set quiet hours so notifications arrive only when you want them.
+
+To open notification settings, sign in and navigate to **Settings → Notifications**, or go to your profile page and select the **Notifications** tab.
+
+---
+
+## Notification types
+
+| Category | What triggers it |
+|---|---|
+| **Grades & Feedback** | A grade is posted or feedback is added to your submission |
+| **Assignment Updates** | A new assignment is created, a due date changes, or a submission is received |
+| **Deadline Reminders** | Reminders sent before an assignment is due |
+| **Course Announcements** | An instructor posts an important message to the course |
+| **Schedule Changes** | A class is cancelled, a room changes, or another schedule update occurs |
+| **Discussions & Comments** | Someone replies to a discussion thread or mentions you |
+| **Achievements & Milestones** | You earn points, unlock a badge, or reach a learning streak |
+| **System Notifications** | Account security events and platform updates |
+
+<Note>
+  Discord activity alerts are delivered through the course Discord server when your Discord account is linked to your profile. These are separate from the in-app and email channels above. See [profile settings](/account/profile) for instructions on linking your Discord account.
+</Note>
+
+---
+
+## Configure notification preferences
+
+Each notification category can be independently toggled for each delivery channel.
+
+<Steps>
+  <Step title="Go to notification settings">
+    Navigate to **Settings → Notifications** (students: **Dashboard → Settings → Notifications**).
+  </Step>
+  <Step title="Review the preferences table">
+    The table lists each category with three toggle buttons: **Email**, **Push**, and **In-App**. A highlighted button means that channel is active for that category.
+  </Step>
+  <Step title="Toggle individual channels">
+    Select any toggle to switch it on or off. Changes apply immediately per category and channel.
+  </Step>
+  <Step title="Use quick actions for bulk changes">
+    Below the category list, quick action links let you enable or disable all notifications for a single channel at once. For example, "Enable all Email" turns on email notifications for every category in one click.
+  </Step>
+  <Step title="Save your preferences">
+    Select **Save Changes** at the bottom of the page to persist your selections.
+  </Step>
+</Steps>
+
+<Note>
+  Push notifications require browser permission. If you have not yet allowed notifications in your browser, a prompt will appear. You can also manage this in your browser's site settings for the Learning In Stride domain.
+</Note>
+
+### Default channel settings
+
+The table below reflects the default state when your account is created. You can change any of these at any time.
+
+| Category | Email | Push | In-App |
+|---|---|---|---|
+| Grades & Feedback | On | On | On |
+| Assignment Updates | On | On | On |
+| Deadline Reminders | On | On | On |
+| Course Announcements | On | Off | On |
+| Schedule Changes | On | On | On |
+| Discussions & Comments | Off | Off | On |
+| Achievements & Milestones | Off | On | On |
+| System Notifications | On | Off | On |
+
+---
+
+## Email digest
+
+Instead of receiving individual emails for each event, you can consolidate them into a single digest email.
+
+<Steps>
+  <Step title="Enable Email Digest">
+    In the **Email Digest** section, toggle **Enable Email Digest** on.
+  </Step>
+  <Step title="Choose frequency">
+    Select **Daily** to receive a summary once per day, or **Weekly** to receive one email per week covering all activity from the preceding seven days.
+  </Step>
+</Steps>
+
+<Tip>
+  The email digest is a good option if you find individual notification emails disruptive. Deadline reminders and grade notifications are still sent individually unless you also configure those categories in the preferences table.
+</Tip>
+
+---
+
+## Quiet hours
+
+Quiet hours pause push notifications during a time window you define. Email and in-app notifications are not affected.
+
+<Steps>
+  <Step title="Enable Quiet Hours">
+    In the **Quiet Hours** section, toggle **Enable Quiet Hours** on.
+  </Step>
+  <Step title="Set the time range">
+    Use the **From** and **To** time pickers to define your quiet window. The default is 10:00 PM to 8:00 AM.
+  </Step>
+  <Step title="Save changes">
+    Select **Save Changes** at the bottom of the page.
+  </Step>
+</Steps>
+
+<Note>
+  Quiet hours apply to push notifications only. If you need to suppress email notifications during certain hours, consider using your email client's scheduled inbox or focus mode features.
+</Note>
+
+---
+
+## Deadline reminder management
+
+You can disable all deadline reminders globally, or mute reminders for individual assignments without affecting any other notification.
+
+### Disable all deadline reminders
+
+In the **Deadline Reminder Management** section, toggle **Disable All Deadline Reminders** on. This immediately stops all assignment reminder notifications across every course.
+
+To re-enable them, toggle the switch off.
+
+### Mute reminders for a specific assignment
+
+When you receive a deadline reminder notification in-app or by push, select **Stop reminders** directly on the notification. That assignment is then added to your muted list.
+
+To view and manage muted assignments, open **Deadline Reminder Management**. The **Muted Assignments** list shows each muted assignment and its course code. Select **Re-enable** next to any assignment to restore reminders for it.
+
+---
+
+## The notification center
+
+The in-app notification center shows all recent notifications. Access it by selecting the bell icon in the navigation bar.
+
+- Unread notifications are highlighted.
+- Select a notification to mark it read and navigate to the related content (for example, a grade or announcement).
+- You can clear individual notifications or use the bulk clear option to remove all read notifications.
+
+<Tip>
+  Grade inquiry status updates appear in the notification center as your inquiry moves through the review process. Keep an eye on it after submitting a regrade request.
+</Tip>
+
+---
+
+## Opt out of specific notification types
+
+To stop receiving a particular notification type entirely across all channels:
+
+<Steps>
+  <Step title="Open notification settings">
+    Navigate to **Settings → Notifications**.
+  </Step>
+  <Step title="Find the category">
+    Locate the row for the notification type you want to opt out of.
+  </Step>
+  <Step title="Turn off all channels">
+    Toggle Email, Push, and In-App all to **Off** for that row.
+  </Step>
+  <Step title="Save">
+    Select **Save Changes**.
+  </Step>
+</Steps>
+
+<Warning>
+  Turning off **System Notifications** means you will not receive account security alerts, such as notifications about new sign-ins or password changes. It is recommended to keep at least one channel enabled for this category.
+</Warning>
+
+---
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Why am I not receiving push notifications even though they are enabled?">
+    Push notifications require explicit browser permission. Check that you have allowed notifications for the Learning In Stride domain in your browser settings. In Chrome, go to **Settings → Privacy and security → Site settings → Notifications** and confirm that Learning In Stride is in the "Allowed" list.
+  </Accordion>
+  <Accordion title="How do I receive Discord activity alerts?">
+    Discord alerts are sent through the course Discord server, not through the Learning In Stride in-app or email channels. You must first link your Discord account in your profile settings. Once linked, the LMS bot can send you direct messages and post activity updates to configured course channels.
+  </Accordion>
+  <Accordion title="I turned off deadline reminders but I still received one. Why?">
+    If you disabled all deadline reminders after a reminder was already scheduled, reminders that were queued before you changed the setting may still be delivered. After saving your preference, no new reminders will be sent.
+  </Accordion>
+  <Accordion title="Can I set different quiet hours for weekdays and weekends?">
+    Not currently. Quiet hours apply to the same time window every day. As a workaround, you can manually toggle quiet hours on or off as needed.
+  </Accordion>
+  <Accordion title="Where do grade inquiry updates appear?">
+    When you submit a grade inquiry and its status changes (for example, from pending to resolved), a notification appears in your in-app notification center. If you have email enabled for Grades & Feedback, you will also receive an email.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Profile settings" icon="user" href="/account/profile">
+    Link your Discord account and manage other profile preferences.
+  </Card>
+  <Card title="Sign in and registration" icon="lock" href="/account/authentication">
+    Learn about sign-in options and account recovery.
+  </Card>
+</CardGroup>

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "Learning In Stride",
+  "theme": "almond",
+  "logo": {
+    "light": "https://media.brand.dev/80c1716e-0672-4f1a-b59a-929280ff4efd.png",
+    "dark": "https://media.brand.dev/80c1716e-0672-4f1a-b59a-929280ff4efd.png"
+  },
+  "favicon": "https://media.brand.dev/fbbed9b5-17a1-49d8-b31f-6c09a496ced4.jpg",
+  "colors": {
+    "primary": "#8c8c8c",
+    "light": "#171818",
+    "dark": "#d3d3d3"
+  },
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/tsi400/myLMS"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart-students",
+              "quickstart-instructors"
+            ]
+          },
+          {
+            "group": "For Students",
+            "pages": [
+              "students/dashboard",
+              "students/assignments",
+              "students/grades",
+              "students/exam-prep",
+              "students/growth-journey"
+            ]
+          },
+          {
+            "group": "For Instructors",
+            "pages": [
+              "instructors/course-setup",
+              "instructors/assignments",
+              "instructors/grading",
+              "instructors/ai-grading",
+              "instructors/schedule"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "features/discord-integration",
+              "features/gamification",
+              "features/course-builder",
+              "features/billing"
+            ]
+          },
+          {
+            "group": "Account & Settings",
+            "pages": [
+              "account/authentication",
+              "account/profile",
+              "account/notifications"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api/courses",
+              "api/assignments",
+              "api/grades",
+              "api/schedule",
+              "api/users"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

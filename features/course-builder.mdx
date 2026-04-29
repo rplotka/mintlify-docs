@@ -1,0 +1,160 @@
+---
+title: 'AI Course Builder: Build Your Course from Scratch'
+description: 'Use the AI Course Builder to generate a full course curriculum, assignments, rubrics, and question bank from a single prompt or an existing syllabus.'
+---
+
+The AI Course Builder is a dedicated service in Learning In Stride that helps instructors set up a new course offering end-to-end. Instead of manually populating every assignment, schedule entry, and grading policy, you describe your course and let the builder generate a structured curriculum draft that you review, edit, and publish directly into the LMS.
+
+The Course Builder runs as its own service (accessible at `/course-builder/`) and is available to any instructor with an active subscription.
+
+## Entry paths
+
+When you open the Course Builder, you choose one of three starting points:
+
+<CardGroup cols={3}>
+  <Card title="Start from scratch" icon="pencil">
+    Build a brand-new course structure from the ground up. Describe your course in the prompt field and the AI generates a week-by-week curriculum outline, assignments, rubrics, and quiz questions.
+  </Card>
+  <Card title="Import syllabus / schedule" icon="upload">
+    Upload an existing syllabus document, schedule spreadsheet, or calendar file. The builder parses the file and pre-populates the course structure so you can review and adjust rather than generating from scratch.
+  </Card>
+  <Card title="Re-teach existing course" icon="copy">
+    Clone a previous semester's course and update dates, assignments, and policies for the new term. The builder flags content that may need adjustment and queues it for your review.
+  </Card>
+</CardGroup>
+
+## Session workflow
+
+The Course Builder organizes all work into **sessions**. A session tracks your progress through the setup checklist and stores every generated draft until you publish. Draft sessions are preserved if you close the browser and resume later.
+
+### Required checklist items
+
+Every session must complete these items before you can publish:
+
+| Item | Description |
+|---|---|
+| **Curriculum** | Week-by-week outline of topics and assessments |
+| **Assignments** | Individual assignment descriptions with metadata |
+| **Rubrics** | Grading rubrics linked to assignments |
+| **Grade weights** | How each category contributes to the final grade |
+| **Schedule** | Meeting dates and class session structure |
+
+### Optional checklist items
+
+| Item | Description |
+|---|---|
+| **Meeting patterns** | Recurring class meeting rules (e.g., MWF 10–10:50) |
+| **Gamification** | Point values, rewards, and streak configuration |
+| **Adaptive learning** | AI-generated competency domains for the Study Path service |
+| **Question bank** | Multiple-choice and short-answer questions for exam simulation |
+| **News feed** | Course-specific news sources |
+| **Cross-listing** | Link sections that share content |
+
+## Generating a curriculum from scratch
+
+<Steps>
+  <Step title="Create a new session">
+    Open the Course Builder at `/course-builder/` and click **Start from Scratch**. A new draft session opens.
+  </Step>
+  <Step title="Write a course prompt">
+    In the **Course Prompt** field, describe what you want to teach — the subject, level, learning objectives, and any constraints (number of weeks, prerequisite topics, etc.). The more specific your prompt, the more accurate the generated outline.
+
+    You can optionally enable **Web Research** to let the AI search for current course materials and textbook references related to your subject before generating.
+  </Step>
+  <Step title="Attach Box files (optional)">
+    If your institution uses Box, you can search for and attach existing course documents — syllabi, reading lists, prior exam papers — directly from the Box integration. The AI incorporates that content as context for generation.
+  </Step>
+  <Step title="Generate the curriculum">
+    Click **Generate**. The AI streams a week-by-week curriculum outline token by token as it produces it. You can cancel generation at any time.
+  </Step>
+  <Step title="Review and edit the outline">
+    Once generation completes, the **Curriculum Outline** component displays each week's title, topics, and planned assessments. Edit any week's content inline, add new weeks, or delete weeks that do not fit your plan.
+  </Step>
+  <Step title="Approve and continue">
+    Click **Approve** to save the curriculum to the session. The curriculum item on the progress tracker turns green. Continue to the remaining checklist items (assignments, rubrics, etc.).
+  </Step>
+  <Step title="Preview and publish">
+    When all required items are complete, use **View as Student** to preview the course exactly as students will see it. Then navigate to the **Publish** step to push everything to the live LMS.
+  </Step>
+</Steps>
+
+<Note>
+  AI generation is only available for **Start from Scratch** sessions. Import and re-teach sessions work from existing content instead.
+</Note>
+
+## Generated content types
+
+The Course Builder can produce the following content types, each reviewed separately before publishing:
+
+<CardGroup cols={2}>
+  <Card title="Curriculum outline" icon="list">
+    A structured week-by-week plan with a title, a list of topics, and a list of planned assessments for each week.
+  </Card>
+  <Card title="Assignments" icon="file">
+    Individual assignment descriptions with type (essay, project, problem set, etc.), due-date offset from the schedule, and point value.
+  </Card>
+  <Card title="Rubrics" icon="check-square">
+    Grading rubrics attached to assignments, with criteria, performance levels, and point allocations.
+  </Card>
+  <Card title="Question bank" icon="circle-question">
+    Multiple-choice and short-answer questions aligned to the curriculum topics, ready for use in the Exam Simulator.
+  </Card>
+  <Card title="Competency domains" icon="bullseye">
+    Learning competency definitions used by the adaptive learning module to personalize student review paths.
+  </Card>
+  <Card title="Grade weights" icon="chart-bar">
+    The relative weight of each assignment category (homework, exams, participation, etc.) in the final grade calculation.
+  </Card>
+</CardGroup>
+
+## Reviewing and editing generated content
+
+Each content type goes through an independent review step:
+
+- **Accept** — approve the item as generated
+- **Edit** — modify the content inline and save your changes (the item is marked as edited)
+- **Reject** — discard the item; it will not be published
+
+You can batch-accept all items of a type, or review them one by one. The progress tracker shows a draft count and reviewed count for each item type so you can see at a glance how much work remains.
+
+<Tip>
+  The AI learns from your edits and rejections over time. Corrections you make are captured as feedback that improves future generation quality for similar course subjects.
+</Tip>
+
+## How published content integrates with the LMS
+
+When you publish a session, the Course Builder pushes each content type into the appropriate section of your course:
+
+- **Curriculum and schedule** → appears in the Schedule Center
+- **Assignments and rubrics** → appear in the Assignment Manager
+- **Grade weights** → applied to the course grade configuration
+- **Question bank** → available in the Exam Simulator
+- **Competency domains** → active in the Study Path for enrolled students
+
+Published sessions cannot be edited in the Course Builder; use the individual course editors to make post-publish changes.
+
+## Re-teaching a course
+
+When you choose **Re-teach Existing Course**, the builder copies the prior semester's content into a new draft session. It then runs a review pass and flags items that likely need updating — for example, due dates tied to old calendar dates, references to past events, or assignments marked as "in review."
+
+Flagged items appear in the **Flagged Content Review** panel at the top of the session dashboard. Work through each flag before publishing.
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Can I run the Course Builder for a course that already exists?">
+    Yes. The Course Builder can create a new session linked to an existing course semester. When published, it overwrites (or merges with) the course's existing content depending on the item type.
+  </Accordion>
+  <Accordion title="What happens if I close the browser mid-generation?">
+    Sessions auto-save. If you close the browser while generation is running, the job continues in the background. Reopen the session to see the result when you return.
+  </Accordion>
+  <Accordion title="Can I run multiple generation jobs in the same session?">
+    No. Only one generation job can be active at a time per session. If a job is queued or running, new generation requests are rejected until the current job completes or is cancelled.
+  </Accordion>
+  <Accordion title="Is there a way to see what a student will see before publishing?">
+    Yes. Once all required items are complete, the **View as Student** button becomes active. It renders the full course hub view exactly as an enrolled student would see it.
+  </Accordion>
+  <Accordion title="What if I want to discard a draft and start over?">
+    Delete the draft session from the Course Builder home page. Draft content is soft-deleted (marked as abandoned) and is not published to the LMS. You can create a new session for the same course at any time.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,103 @@
+---
+title: 'Create and Manage Assignments for Your Course'
+description: 'Create assignments with rubrics and late penalties, publish them to students, and use the Assignment Hub to track work across all your courses at once.'
+---
+
+Assignments in Learning In Stride are created and managed through the assignment manager, a dedicated interface accessible from each course. All assignment data — submissions, rubrics, and grades — is managed there and remains consistent across your dashboard and student views.
+
+## Opening the assignment manager
+
+From **Admin → Courses**, click the course you want, then click **Assignments** in the course toolbar. The assignment manager opens for that course.
+
+Alternatively, go to **Admin → Assignment Hub** for a cross-course view (see [The Assignment Hub](#the-assignment-hub) below).
+
+## Creating an assignment
+
+<Steps>
+  <Step title="Click New Assignment">
+    In the course's assignment manager, click **New Assignment** in the top-right corner.
+  </Step>
+
+  <Step title="Fill in the assignment details">
+    Complete the required fields:
+
+    - **Title** — shown to students in their dashboard and course schedule.
+    - **Description / Instructions** — supports rich text and Markdown. Use this field to describe expectations in detail.
+    - **Due date** — sets the submission deadline. Students see this date on their schedule and in deadline reminders.
+    - **Points** — the maximum score for this assignment (used by the grade weight system).
+    - **Submission type** — choose from text entry, file upload, URL, or team submission.
+  </Step>
+
+  <Step title="Attach a rubric (recommended)">
+    Click **Add Rubric** to build a criterion-based rubric. For each rubric category:
+
+    1. Enter a category name (e.g., "Code Quality").
+    2. Add individual criteria within the category.
+    3. Set the point value per criterion.
+
+    When a rubric is attached, Speed Grader uses rubric-based scoring. Without a rubric, graders enter a single numeric score. Rubrics also enable AI grading features on the AI Pro and Platinum tiers.
+
+    <Tip>
+      Use **AI Essentials** to generate a rubric automatically from your assignment description. See [AI Grading](/instructors/ai-grading) for details.
+    </Tip>
+  </Step>
+
+  <Step title="Configure late penalties">
+    Expand the **Late Policy** section to set how late submissions are penalized:
+
+    - **No penalty** — accept late work at full credit.
+    - **Percentage deduction per day** — reduce the score by a fixed percentage for each day past the due date.
+    - **Not accepted** — submissions after the due date are blocked.
+
+    Individual students with a late-work accommodation can have exceptions applied from the Enrollment Manager (see the `extraTimeMultiplier` field).
+  </Step>
+
+  <Step title="Save and publish">
+    Click **Save as Draft** to keep the assignment hidden from students while you finalize details. When the assignment is ready, toggle the status to **Published**. Students see the assignment immediately in their course schedule and Hub dashboard.
+  </Step>
+</Steps>
+
+## Managing submissions
+
+Once students start submitting, open the assignment in the manager to see the submission list. From this view you can:
+
+- **Filter by status** — pending, graded, late, or all.
+- **Download all submissions** — bulk-download student files as a ZIP archive.
+- **Open Speed Grader** — click **Grade** next to any assignment to open the Speed Grader for one-at-a-time review with inline feedback. See [Grading](/instructors/grading) for the full Speed Grader workflow.
+
+<Note>
+  Team submissions are grouped under the team name. Grading a team submission applies the score to every team member automatically.
+</Note>
+
+## The Assignment Hub
+
+The Assignment Hub at **Admin → Assignment Hub** gives you a cross-course view of all your assignments. Use it to:
+
+- **Search and filter** — filter by semester, course, assignment type, or status (upcoming, past due, needs grading).
+- **Switch views** — toggle between **List** (grouped by course or due date) and **Calendar** (weekly view with assignments plotted on dates).
+- **Monitor at a glance** — the stats bar at the top shows total assignments, upcoming, past due, and assignments needing grading across all your courses.
+- **Open an assignment directly** — click any assignment in the list or calendar to open its detail modal, where you can edit settings or jump to Speed Grader.
+
+<AccordionGroup>
+  <Accordion title="Can I reuse an assignment from a previous semester?">
+    Yes. When setting up a new semester, the Schedule Editor's copy flow brings over schedule items including assignment placeholders. In the assignment manager, you can also duplicate an existing assignment to start from a copy of its settings and rubric.
+  </Accordion>
+  <Accordion title="What submission types are supported?">
+    Text entry, file upload (any file type), URL submission, and team submissions. The submission type is set per-assignment and cannot be changed after students have submitted.
+  </Accordion>
+  <Accordion title="Can students resubmit?">
+    Resubmission behavior is configured in the assignment settings. You can allow unlimited resubmissions before the due date, or restrict to one final submission.
+  </Accordion>
+  <Accordion title="How do late penalties interact with extra time?">
+    Students with an `extraTimeMultiplier` set in Enrollment receive proportionally extended deadlines before any late penalty applies. For example, a student with a 1.5× multiplier on a 24-hour late window effectively has a 36-hour grace period.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Grading" icon="graduation-cap" href="/instructors/grading">
+    Grade submissions with Speed Grader and manage the grade roster.
+  </Card>
+  <Card title="AI Grading" icon="sparkles" href="/instructors/ai-grading">
+    Enable AI rubric generation and batch AI grading.
+  </Card>
+</CardGroup>

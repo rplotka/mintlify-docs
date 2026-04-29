@@ -1,0 +1,147 @@
+---
+title: 'Sign In and Account Registration for Learning In Stride'
+description: 'Sign in with Google, RPI Shibboleth, or email and password. Register, claim a pre-created account, reset your password, and troubleshoot common sign-in errors.'
+---
+
+Learning In Stride supports multiple ways to access your account. Whether you sign in through Google, your RPI credentials, or a traditional email and password, all paths lead to the same dashboard and course materials.
+
+## Sign-in options
+
+Navigate to the Learning In Stride login page. You will see three ways to authenticate:
+
+- **Continue with Google** — authenticates through your Google account
+- **Continue with RPI Shibboleth** — authenticates through RPI's institutional identity provider using your RCS ID
+- **Sign in with email and password** — available after clicking "Sign in with email and password" to expand the form
+
+<Tip>
+RPI students and instructors should use **Continue with RPI Shibboleth** as their primary sign-in method. This keeps your account linked to your RPI identity automatically.
+</Tip>
+
+### Two-factor authentication
+
+If your account has two-factor authentication (2FA) enabled, you will be prompted to enter a 6-digit code from your authenticator app immediately after submitting your email and password. Enter the code and select **Verify** to complete sign-in. If you need to go back and try a different account, select **Back to login**.
+
+---
+
+## Register a new account
+
+<Tabs>
+  <Tab title="Students">
+    <Steps>
+      <Step title="Go to the registration page">
+        From the login page, select **Register**. You can also navigate directly to `/register`.
+      </Step>
+      <Step title="Fill in your details">
+        Complete all required fields:
+        - **Full Name** — your legal or preferred name
+        - **Email** — use your `@rpi.edu` address when possible
+        - **RCS ID** — optional, but recommended; for example, `doej`
+        - **Password** — at least 8 characters
+        - **Confirm Password** — must match the password field exactly
+      </Step>
+      <Step title="Submit and wait for approval">
+        Select **Create Account**. Your registration is submitted for administrator review. You will see a confirmation message and be redirected to the login page. You cannot sign in until an administrator approves your account.
+      </Step>
+    </Steps>
+
+    <Note>
+      Registration requires admin approval. If you have not heard back within one business day, contact your instructor.
+    </Note>
+  </Tab>
+  <Tab title="Instructors">
+    Instructor accounts are typically pre-created by the LMS administrator and delivered via a claim link. If you received an invitation email, follow the **Claiming a pre-created account** section below instead of registering manually.
+
+    If you do not have a claim link and need an instructor account, contact your LMS administrator directly.
+  </Tab>
+</Tabs>
+
+---
+
+## Claim a pre-created account
+
+Instructors often pre-populate student accounts before a course begins. If your account was created in advance, you will receive an email with a claim link.
+
+<Steps>
+  <Step title="Open the claim link">
+    Click the link in your invitation email. It will take you to the account setup page.
+  </Step>
+  <Step title="Enter your RCS ID and verify your RIN">
+    Provide your RCS ID (for example, `doej`) and your 9-digit RIN. Both are required to verify your identity and complete the account claim.
+  </Step>
+  <Step title="Set optional profile fields">
+    You can optionally provide a chosen name, pronouns, Discord handle, and GitHub username during onboarding. These can all be changed later from your profile settings.
+  </Step>
+  <Step title="Complete setup">
+    Select **Complete Setup**. Your account is now active and you can sign in immediately.
+  </Step>
+</Steps>
+
+<Note>
+  Claim links are single-use and expire. If your link no longer works, ask your instructor to resend the invitation.
+</Note>
+
+---
+
+## Password reset
+
+If you signed up with email and password and cannot sign in, you can reset your password.
+
+<Steps>
+  <Step title="Go to the login page">
+    Navigate to the Learning In Stride login page and expand the email/password form by clicking **Sign in with email and password**.
+  </Step>
+  <Step title="Use forgot password">
+    Select **Forgot password?** beneath the sign-in form and enter your email address.
+  </Step>
+  <Step title="Check your inbox">
+    You will receive a password reset email. Open it and follow the link to set a new password. The link expires after a short window, so complete this promptly.
+  </Step>
+  <Step title="Set your new password">
+    Enter a new password of at least 8 characters, confirm it, and save. You will be redirected to sign in with your new credentials.
+  </Step>
+</Steps>
+
+<Warning>
+  If you signed up exclusively through Google or RPI Shibboleth and have never set a password, the password reset flow does not apply to your account. Use the appropriate OAuth button to sign in instead.
+</Warning>
+
+---
+
+## Troubleshooting and common errors
+
+<AccordionGroup>
+  <Accordion title="Your account is pending approval">
+    After registering with email and password, accounts require administrator approval before you can sign in. If you see "Your account is pending approval," wait for the approval email or contact your instructor.
+  </Accordion>
+  <Accordion title="Your account has been deactivated">
+    An account showing "Your account has been deactivated" cannot sign in until an administrator reactivates it. This can happen if all linked login providers were removed. Contact your course administrator or the LMS support team to regain access.
+  </Accordion>
+  <Accordion title="Your account registration was rejected">
+    If your registration was rejected, you will see "Your account registration was rejected" on the login page. Contact your instructor or LMS administrator to understand why and whether you can re-register.
+  </Accordion>
+  <Accordion title="Google authentication failed">
+    If you see "Google authentication failed," close the browser tab, return to the login page, and try again. Make sure you are selecting the correct Google account. If the error persists, try clearing browser cookies for the Learning In Stride domain.
+  </Accordion>
+  <Accordion title="RPI authentication failed">
+    If you see "RPI authentication failed," ensure you are entering your RCS ID and password correctly on the RPI Shibboleth page. If you have recently changed your RPI password, wait a few minutes for the change to propagate and try again.
+  </Accordion>
+  <Accordion title="RPI did not provide an email address">
+    In rare cases, RPI's identity provider does not share your email with Learning In Stride. If you see this error, contact LMS support so your account can be linked manually.
+  </Accordion>
+  <Accordion title="I don't receive the verification email">
+    Check your spam or junk folder first. Verification emails come from the Learning In Stride domain. If you still do not receive it after a few minutes, confirm you used the correct email address at registration, or contact support.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Profile settings" icon="user" href="/account/profile">
+    Update your display name, bio, pronouns, and linked accounts.
+  </Card>
+  <Card title="Notification preferences" icon="bell" href="/account/notifications">
+    Control which notifications you receive and how they are delivered.
+  </Card>
+</CardGroup>

@@ -1,0 +1,139 @@
+---
+title: "Grades: View Scores, Weights, and Your Course Standing"
+description: "Check grades across all courses, see how weighted categories roll up into your final score, dispute a grade if needed, and track your leaderboard position."
+---
+
+The Grades section gives you a complete picture of how you're performing academically. You can view a high-level summary across all your courses from one page, then drill into any individual course to see exactly how each assignment, presentation, and participation score contributes to your final grade.
+
+## Viewing your overall grade summary
+
+Navigate to **My Grades** from the dashboard sidebar or by clicking any course's grade indicator on the dashboard. The summary page shows:
+
+- Your **overall average** across all enrolled courses with grades
+- How many of your courses currently have calculated grades
+- A **course card** for each enrollment with the current letter grade, percentage, and component breakdown
+
+Click any course card to open the detailed grade view for that course.
+
+## Understanding the grade breakdown
+
+Each course grade is calculated from multiple weighted categories. The exact categories and weights vary by course, but a typical ITWS course includes components such as:
+
+<Tabs>
+  <Tab title="Assignments">
+    Individual homework, labs, and projects submitted through the platform. Each assignment is scored by your instructor (or by the AI grading assistant). The score counts toward this category's weight.
+  </Tab>
+  <Tab title="Participation">
+    Discord activity and in-class engagement, tracked automatically. Your participation score reflects the volume and quality of your contributions.
+  </Tab>
+  <Tab title="Presentations">
+    Presentation grades are recorded separately by your instructor and weighted as a distinct category.
+  </Tab>
+  <Tab title="Finals">
+    A final exam or capstone assessment graded at the end of the semester and applied at its configured weight.
+  </Tab>
+</Tabs>
+
+### How the final grade is calculated
+
+Your final score is a weighted average. For each category, the system computes:
+
+```
+Category score (%) × Category weight (%) = Weighted contribution
+```
+
+All weighted contributions are summed to produce your **subtotal**. If your instructor has applied a **peer adjustment** — a positive or negative modifier based on team feedback — it is added to the subtotal to arrive at your **final score**, which is then converted to a letter grade.
+
+<Info>
+  A grade marked **Preliminary** has not been finalized by your instructor yet and may still change. Finalized grades show a checkmark icon.
+</Info>
+
+## Viewing individual assignment grades
+
+On the course grade detail page, every submitted assignment appears with:
+
+- The assignment title and type
+- Your submitted date (and a **Late** badge if it was turned in after the deadline)
+- Your score and the maximum possible score
+- The percentage and letter grade equivalent
+- Whether the grade is finalized or still preliminary
+- Written feedback from your instructor, if provided
+
+Grades that have been released show a green checkmark; grades still under review show a yellow clock icon.
+
+## Discord activity and participation
+
+If your course tracks Discord participation, a **Discord Activity** card appears at the top of the course grade page. It shows a summary of your recent activity metrics used to compute your participation score.
+
+## Submitting a grade inquiry
+
+If you believe a grade on a specific assignment is incorrect or was applied in error, you can submit a grade inquiry directly through the platform.
+
+<Steps>
+  <Step title="Open the assignment">
+    Navigate to the course grade detail page and click the assignment in question to open its full page.
+  </Step>
+  <Step title="Find the grade inquiry option">
+    Scroll to the **Grade** section at the bottom of the assignment page. Click **Dispute Grade** or **Submit Inquiry**.
+  </Step>
+  <Step title="Describe the issue">
+    Write a clear explanation of what you believe is incorrect and what you think the correct grade should be, citing specific rubric criteria if relevant.
+  </Step>
+  <Step title="Submit and wait for a response">
+    Your instructor receives a notification. You can track the inquiry status from the same assignment page until a decision is made.
+  </Step>
+</Steps>
+
+<Note>
+  Grade inquiries are visible to your instructor only. Submit them respectfully and as soon as possible after receiving a grade — most instructors have a limited review window.
+</Note>
+
+## The leaderboard
+
+Learning In Stride includes a class leaderboard that ranks students by points earned through gamification activities. It is friendly competition — not tied to your academic grade.
+
+<Steps>
+  <Step title="Open the leaderboard">
+    Click **Leaderboard** in the sidebar or from the Growth Journey page.
+  </Step>
+  <Step title="Choose a time period">
+    Toggle between **All Time**, **This Month**, and **This Week** to see rankings for each window. Your own entry is highlighted so you can find your position quickly.
+  </Step>
+  <Step title="Read the rankings">
+    The top three positions show special icons: a crown for first place, a silver medal for second, and a bronze medal for third. Each entry displays the student's display name and point total.
+  </Step>
+</Steps>
+
+### How to earn leaderboard points
+
+| Activity | Points |
+|----------|--------|
+| Submit an assignment on time | +10 pts |
+| Earn a perfect score (100%) on an assignment | +25 pts |
+| Stay active every day (daily streak) | +5 pts/day |
+
+Additional points are awarded for achievements and badges. See the [Growth Journey](/students/growth-journey) page for the full breakdown.
+
+<AccordionGroup>
+  <Accordion title="My final grade shows 'No final grade calculated yet.' What does that mean?">
+    Your instructor has not yet run the final grade calculation for your course. This is normal early in the semester or before all assignment categories have received at least one grade. The calculation runs automatically once sufficient data exists.
+  </Accordion>
+  <Accordion title="Why is my overall average different from what I calculated manually?">
+    The overall average on the summary page is a simple average of your course final scores, not a weighted average across all assignments platform-wide. For exact per-course calculations, open the individual course grade detail view.
+  </Accordion>
+  <Accordion title="Can I see grades from previous semesters?">
+    Yes. Past-semester courses appear in your grades list with their final calculated scores. You can drill into them to review individual assignment grades just as you would for a current course.
+  </Accordion>
+  <Accordion title="What does a peer adjustment mean on my final grade?">
+    Some courses use peer evaluations as part of the final grade. A positive peer adjustment raises your subtotal; a negative one lowers it. The adjustment amount is set by your instructor based on peer feedback responses.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Assignments" icon="clipboard-list" href="/students/assignments">
+    See all your assignments, submit work, and track submission status.
+  </Card>
+  <Card title="Growth Journey" icon="trophy" href="/students/growth-journey">
+    Understand how gamification points and achievements are separate from your academic grade.
+  </Card>
+</CardGroup>

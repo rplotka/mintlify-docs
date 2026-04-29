@@ -1,0 +1,138 @@
+---
+title: 'Manage Your Course Schedule in Schedule Center'
+description: 'Add lectures, labs, office hours, and more in the Schedule Center, subscribe to an iCal feed for any calendar app, and attach class recording links.'
+---
+
+The Schedule Center gives you a unified, multi-course view of everything scheduled across your courses for the current semester. It keeps schedule data in sync with the RPI academic calendar and surfaces class meetings, assignment due dates, and campus-wide events in one place.
+
+## Opening the Schedule Center
+
+Navigate to **Admin → Schedule Center**. The page opens to the current week by default. If you are a student or non-staff user accessing your own schedule, navigate to **Hub → Schedule** instead.
+
+## View modes
+
+Three view modes are available. Switch between them using the controls at the top of the page:
+
+<Tabs>
+  <Tab title="Calendar view">
+    A traditional month-style calendar. Click on any date to see items for that day. Use the week navigation arrows to move forward or backward. Class days (days that have at least one LECTURE or LAB item) are highlighted differently from non-class days.
+  </Tab>
+  <Tab title="Weekly view">
+    A seven-column grid showing all schedule items for the current week. Useful for seeing conflicts or gaps in a given week at a glance.
+  </Tab>
+  <Tab title="Agenda view">
+    A chronological list of upcoming items sorted by date. Best for scanning what is coming up in the next few weeks without a grid layout.
+  </Tab>
+</Tabs>
+
+## Course filtering
+
+When you teach multiple courses, a **Course Selector** dropdown appears above the schedule. Select one or more courses to narrow the view. When multiple courses are selected, a color legend below the controls shows which color corresponds to which course. Each course keeps a consistent color throughout the schedule.
+
+Use the **Filter** dropdown alongside the Course Selector to toggle between:
+
+- **All days** — show every day of the week.
+- **Class days only** — show only days that have at least one lecture or lab, matching your actual meeting pattern.
+
+## Adding schedule items
+
+Click **Open Schedule Editor** to add or edit items for a specific course. In the editor, click **Add Item** to create a new schedule entry.
+
+Fill in the required fields:
+
+| Field | Description |
+|---|---|
+| **Item type** | Choose from Lecture, Guest Lecture, Lab, Exam, Midterm, Final, Office Hours, Discussion, Homework, Assignment, Quiz, Reading, Paper, Case Study, Project, Presentation, Holiday, Break, or No Class. |
+| **Date** | The date this item falls on. |
+| **Title** | A short label shown on the schedule (e.g., "Lab 4: Linked Lists"). |
+| **Location** | Room number or building (e.g., "Sage 3510"). Optional but recommended. |
+| **Recording URL** | Paste a link to a class recording (Zoom, Panopto, etc.). Students can access this link directly from the schedule item. |
+
+<Tip>
+  For recurring items like weekly lectures, use the **Repeat** option in the Schedule Editor rather than adding each session manually. Set the recurrence pattern (daily, weekly on specific days) and the end date.
+</Tip>
+
+## Meeting patterns
+
+Meeting patterns define when your class meets each week — the days of the week, meeting type (LEC, LAB, REC, SEM), start and end times, location, section, and CRN. The Schedule Master uses meeting patterns to:
+
+- Highlight class days in the calendar and weekly views.
+- Populate recurring lecture and lab items when you copy a schedule from a prior semester.
+- Validate that newly added items fall on expected class days.
+
+Meeting patterns are imported automatically when you bring your course in from SIS (the SIS data includes day-of-week, time, and CRN). You can also add or edit meeting patterns manually in the Schedule Editor.
+
+Common RPI meeting patterns include:
+
+| Code | Description |
+|---|---|
+| MWF | Monday, Wednesday, Friday |
+| TR | Tuesday, Thursday |
+| M/Th | Monday and Thursday (common for lab-heavy courses) |
+| W | Wednesday only (recitations) |
+
+## The academic calendar
+
+The RPI academic calendar is parsed automatically into semester records (see [Course Setup](/instructors/course-setup)). Key dates — classes begin, classes end, finals begin, finals end — are stored per semester and drive the schedule editor's date validation.
+
+Holidays and campus-wide breaks from the official calendar are imported as `HOLIDAY` or `BREAK` items and appear on your schedule alongside your course-specific items.
+
+## Copying a schedule from a prior semester
+
+In the Course Setup Wizard (or from the Schedule Editor), select **Copy from Previous Semester**. Choose the source semester from the dropdown — each option shows the number of weeks and items it contains. Click **Copy & Adjust Dates** and the system:
+
+1. Duplicates all schedule items from the source semester.
+2. Re-anchors each item's date to the equivalent week in the new semester, accounting for the new semester's start date and any holiday shifts.
+
+Review the copied schedule in the Calendar or Agenda view and manually adjust any items that did not land on the correct date.
+
+## iCal subscription
+
+Subscribe to a live calendar feed to see your course schedule in any calendar app (Google Calendar, Apple Calendar, Outlook, etc.).
+
+<Steps>
+  <Step title="Open the calendar subscription panel">
+    In the Schedule Center, click the **calendar subscribe icon** in the header actions bar (next to the share link icon).
+  </Step>
+  <Step title="Select courses to include">
+    The subscription panel shows all your courses for the current semester. Select the courses you want in your feed. You can create separate feed URLs for each course or one combined feed.
+  </Step>
+  <Step title="Copy the iCal URL">
+    Click **Copy URL** next to your selection. The URL is a standard iCal subscription link.
+  </Step>
+  <Step title="Subscribe in your calendar app">
+    Paste the URL into your calendar app's "Subscribe to calendar" or "Add calendar by URL" flow. The schedule updates automatically whenever items change in Learning In Stride.
+  </Step>
+</Steps>
+
+<Note>
+  The iCal feed is a read-only subscription. Changes you make in the Schedule Editor are reflected in your calendar app on its next sync cycle (typically within an hour, depending on your calendar app's refresh interval).
+</Note>
+
+## Sharing the schedule view
+
+Click the **share icon** (link icon) in the header to copy the current page URL to your clipboard. The URL encodes your current view mode, selected courses, and week, so the recipient sees exactly what you see when they open the link.
+
+<AccordionGroup>
+  <Accordion title="Can students see the same schedule?">
+    Yes. Students access their course schedule from Hub → Schedule. They see the same item types (lectures, exams, assignment due dates) but cannot access admin controls or the Schedule Editor.
+  </Accordion>
+  <Accordion title="How do I add a guest speaker session?">
+    Add a **Guest Lecture** item in the Schedule Editor. Include the speaker's name in the title field and any Zoom or meeting link in the Recording URL field so students have access before the session.
+  </Accordion>
+  <Accordion title="What is the difference between a HOLIDAY and a NO_CLASS item?">
+    A `HOLIDAY` is an RPI-wide campus closure imported from the official academic calendar. A `NO_CLASS` is a course-specific cancellation you add manually, such as a day you are at a conference. Both appear on the schedule with appropriate labels.
+  </Accordion>
+  <Accordion title="Can I add office hours for my TA?">
+    Yes. In the Schedule Editor, add an **Office Hours** item and enter the TA's name in the title. Optionally include a Zoom link in the Recording URL field for virtual office hours.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Course setup" icon="rocket" href="/instructors/course-setup">
+    Import your course from SIS and build your initial schedule.
+  </Card>
+  <Card title="Assignments" icon="clipboard-list" href="/instructors/assignments">
+    Assignment due dates appear on the schedule automatically.
+  </Card>
+</CardGroup>

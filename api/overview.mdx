@@ -1,0 +1,126 @@
+---
+title: "REST API overview for Learning In Stride"
+description: "Base URL, JWT authentication scheme, standard response envelope, HTTP error codes, rate limiting, and API versioning for Learning In Stride (v0.2.1)."
+---
+
+The Learning In Stride API is a JSON REST API that gives you programmatic access to courses, assignments, grades, schedules, and user data for RPI ITWS courses. All endpoints live under the base URL `https://lms.plotka.me` and respond with a consistent `{ success, data }` envelope so your integration code stays uniform regardless of which resource you are querying.
+
+## Base URL
+
+```
+https://lms.plotka.me
+```
+
+A staging environment is also available at `https://staging.lms.plotka.me` for testing your integration before going live.
+
+## API version
+
+The current API version is **v0.2.1**. The version is embedded in the `openapi.ts` specification and surfaced in health-check responses. Breaking changes will increment the major or minor version and be announced in advance.
+
+## Authentication
+
+Most endpoints require a JWT Bearer token. Obtain a token by logging in with `POST /api/auth/login`, then pass it in every subsequent request:
+
+```
+Authorization: Bearer <token>
+```
+
+Requests without a valid token return `401 Unauthorized`. Requests with a valid token but insufficient role return `403 Forbidden`. See the [Authentication](/api/authentication) page for the full login and token-refresh flow.
+
+## Response format
+
+Every successful response wraps its payload in a consistent envelope:
+
+```json
+{
+  "success": true,
+  "data": { ... }
+}
+```
+
+Some list endpoints include a `meta` object with pagination metadata:
+
+```json
+{
+  "success": true,
+  "data": [ ... ],
+  "meta": { "count": 42 }
+}
+```
+
+Error responses follow a parallel shape:
+
+```json
+{
+  "success": false,
+  "error": "Human-readable message",
+  "code": "MACHINE_CODE"
+}
+```
+
+## HTTP status codes
+
+| Code | Meaning |
+|------|---------|
+| `200` | Request succeeded |
+| `201` | Resource created |
+| `400` | Validation error or bad request body |
+| `401` | Missing or invalid token |
+| `403` | Token valid but role is insufficient |
+| `404` | Resource not found |
+| `503` | Upstream microservice unavailable |
+
+## Health check
+
+The health endpoint requires no authentication and returns the current service status, version, and uptime. Use it for monitoring and readiness probes.
+
+```bash
+curl https://lms.plotka.me/health
+```
+
+```json
+{
+  "status": "healthy",
+  "version": "0.2.1",
+  "timestamp": "2026-04-29T12:00:00.000Z",
+  "uptime": 86400,
+  "checks": {}
+}
+```
+
+<ResponseField name="status" type="string">
+  `"healthy"` or `"unhealthy"`.
+</ResponseField>
+
+<ResponseField name="version" type="string">
+  Semantic version string of the running service.
+</ResponseField>
+
+<ResponseField name="timestamp" type="string">
+  ISO 8601 timestamp of when the check was run.
+</ResponseField>
+
+<ResponseField name="uptime" type="number">
+  Seconds the process has been running.
+</ResponseField>
+
+Two additional probes are available for Kubernetes-style deployments:
+
+- `GET /health/ready` — returns `200` when the service is ready to accept traffic, `503` otherwise.
+- `GET /health/live` — returns `200` as long as the process is alive.
+
+## Rate limiting
+
+Authentication endpoints (`/api/auth/login`, `/api/auth/refresh`) are protected by a stricter rate limit to prevent brute-force attacks. If you exceed the limit you will receive a `429 Too Many Requests` response. Back off and retry using exponential backoff.
+
+## User roles
+
+The API enforces role-based access control on every protected endpoint. The roles, in ascending order of privilege, are:
+
+| Role | Description |
+|------|-------------|
+| `STUDENT` | Enrolled student — read-only access to their own data |
+| `TA` | Teaching assistant — can view grading queues |
+| `GRADER` | Grader — limited grading access |
+| `INSTRUCTOR` / `PROFESSOR` | Course instructor — full course management |
+| `ADMIN` | System administrator — unrestricted access |

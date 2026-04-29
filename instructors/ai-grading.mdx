@@ -1,0 +1,158 @@
+---
+title: 'AI Grading: Plans, Configuration, and Workflows'
+description: 'Compare AI Essentials, Pro, and Platinum tiers, configure grading rules and feature toggles, and understand how AI action quotas apply to your plan.'
+---
+
+Learning In Stride's AI grading features are provided by the AI Grading Assistant service, which integrates with Speed Grader and the AI Management dashboard. AI capabilities are available through three optional add-on tiers that stack on top of any paid plan.
+
+## AI add-on tiers
+
+<Tabs>
+  <Tab title="AI Essentials">
+    **$19 / month** — Smart assistance for everyday grading tasks.
+
+    | Feature | Available |
+    |---|---|
+    | AI-assisted rubric generation | Yes |
+    | Submission summarization | Yes |
+    | Basic feedback suggestions | Yes |
+    | AI Chat in Speed Grader | No |
+    | Batch AI grading | No |
+    | Custom grading rules | No |
+    | AI actions per month | 500 |
+
+    **Rubric generation** — In the assignment editor, click **Generate Rubric with AI**. The system reads your assignment description and instructions and proposes a rubric with categories and point values. You can edit, remove, or add criteria before saving.
+
+    **Submission summarization** — In Speed Grader, the AI reads each submission and produces a short summary of the student's main arguments or deliverables. This appears in the center panel above the rubric.
+
+    **Basic feedback suggestions** — After you score a rubric criterion, the AI can suggest a one-sentence feedback comment for that criterion. Click **Insert** to append it to the feedback field.
+  </Tab>
+  <Tab title="AI Pro">
+    **$39 / month** — Advanced AI for serious grading workflows.
+
+    Includes everything in AI Essentials, plus:
+
+    | Feature | Available |
+    |---|---|
+    | Batch AI grading | Yes |
+    | Chat-based grade refinement | Yes |
+    | Custom grading rules | Yes |
+    | AI actions per month | 2,000 |
+
+    **Batch AI grading** — From the assignment's submission list, select multiple (or all) submissions and click **Grade with AI**. The system queues each submission for AI analysis. Results appear in Speed Grader with a confidence score; you review and accept or override each one.
+
+    **Chat-based grade refinement** — Use the **AI Chat** tab in Speed Grader to have a conversation about the current submission. Ask the AI to explain its suggested score, compare the submission to rubric criteria, or draft alternative feedback. Use **Insert Feedback** on any AI response to add it to the feedback field.
+
+    **Custom grading rules** — Define explicit rules in AI Management → Patterns (see [Configuring grading rules](#configuring-grading-rules)) that guide how the AI interprets submissions. Rules are applied to all AI grading operations within your account.
+  </Tab>
+  <Tab title="AI Platinum">
+    **$59 / month** — Full AI power with no limits.
+
+    Includes everything in AI Pro, plus:
+
+    | Feature | Available |
+    |---|---|
+    | Unlimited AI actions | Yes |
+    | Team sentiment analysis | Yes |
+    | Predictive analytics | Yes |
+    | Priority AI processing | Yes |
+
+    **Team sentiment analysis** — Available under **Admin → Team Sentiment**. The AI monitors Discord activity and assignment patterns to surface early signals of team dysfunction or disengagement, helping you intervene before issues escalate.
+
+    **Predictive analytics** — The AI risk assessment engine identifies students at risk of failing based on grade trajectories and participation patterns. At-risk students appear in the AI Insights panel on the Professor Dashboard and in the Student context tab in Speed Grader.
+  </Tab>
+</Tabs>
+
+<Note>
+  AI actions are consumed any time the AI reads or grades a submission, generates a rubric, summarizes text, or responds in the chat panel. Viewing previously generated AI results does not consume actions.
+</Note>
+
+## AI action quotas
+
+| Tier | Actions per month |
+|---|---|
+| AI Essentials | 500 |
+| AI Pro | 2,000 |
+| AI Platinum | Unlimited |
+
+Actions reset on your monthly billing date. If you exhaust your quota before the reset, AI grading features are disabled until the next cycle. Upgrade to a higher tier at any time from **Billing** to restore access immediately.
+
+Track your usage in **AI Management → Analytics**, which shows today's requests, this week's, and this month's totals alongside token counts and cost-by-course breakdowns.
+
+## Enabling AI for a course
+
+<Steps>
+  <Step title="Verify your AI add-on is active">
+    Go to **Admin → AI Management → Settings** and confirm that the Anthropic API Key shows **Active** and that **AI Grading** is toggled on.
+  </Step>
+  <Step title="Set the default model and confidence threshold">
+    In the Settings tab, choose a default AI model:
+
+    - **Claude Sonnet 4** — recommended for most grading tasks (balanced speed and accuracy).
+    - **Claude Opus 4** — higher accuracy for complex written assignments at higher token cost.
+    - **Claude Haiku 3** — fastest and lowest cost, suitable for short submissions.
+
+    Set the **Confidence Threshold** (default 0.70). AI grades with a confidence score below this threshold are flagged for mandatory human review before becoming final.
+  </Step>
+  <Step title="Enable AI on the assignment">
+    In the assignment editor, open **AI Grading Settings**. Toggle **Enable AI grading** and select the grading method:
+
+    - **Manual** — AI suggestions appear in Speed Grader but are never applied automatically.
+    - **Auto-approve high confidence** — grades above the confidence threshold are saved without human review.
+
+    You can also override the confidence threshold and set a flag for **Require human review** on a per-assignment basis.
+  </Step>
+</Steps>
+
+## Configuring grading rules
+
+Grading rules are plain-language instructions that guide the AI's interpretation of submissions. They apply globally across all AI grading operations in your account.
+
+To add a rule, go to **AI Management → Patterns → Grading Rules** and type your rule in the input field, then click **Add Rule**. Examples:
+
+- "Deduct points if the student does not cite their sources."
+- "Give partial credit for correct methodology even if the final answer is wrong."
+- "Code that does not compile should receive a maximum of 40% on the Code Quality criterion."
+
+Rules are listed below the input and can be removed with the × button.
+
+## Pattern learning
+
+Every time you override an AI-suggested grade, the system records the correction as a training example. Over time, the AI learns your grading patterns for each assignment and improves future suggestions accordingly. The **Learned Grading Patterns** section in AI Management → Patterns shows how many corrections have been collected per assignment.
+
+<Warning>
+  Pattern learning uses your corrections to adjust the AI's behavior for your account. If TAs or graders frequently override AI grades without reviewing them carefully, this can degrade AI quality over time. Review the patterns panel periodically to check that learned patterns reflect your intent.
+</Warning>
+
+## Monitoring AI grading activity
+
+The **AI Management dashboard** at **Admin → AI** provides a full operational view:
+
+- **Overview tab** — today's request count, overall approval rate, queue status, and at-risk student count.
+- **Grading tab** — total AI analyses in the last 30 days, average confidence score, human approval rate, and the grading queue (pending, processing, completed, failed).
+- **Analytics tab** — token usage and cost broken down by day, service, model, and course.
+- **Settings tab** — model selection, confidence threshold, and feature toggles for AI Grading, Pattern Learning, Risk Assessment, and Content Recommendations.
+
+<AccordionGroup>
+  <Accordion title="What happens when the AI confidence is below the threshold?">
+    The grade is flagged as requiring human review. In Speed Grader, a banner appears indicating the AI's confidence was low. You must manually accept or edit the grade before it is saved.
+  </Accordion>
+  <Accordion title="Can I disable AI grading for a single assignment?">
+    Yes. In the assignment editor's AI Grading Settings, toggle **Enable AI grading** off. The AI will not process submissions for that assignment even if AI grading is enabled at the account level.
+  </Accordion>
+  <Accordion title="Do AI-generated rubrics count against my action quota?">
+    Yes. Each rubric generation request consumes one AI action.
+  </Accordion>
+  <Accordion title="Can I see what the AI said before a human changed a grade?">
+    Yes. The **History** tab in Speed Grader shows every scoring event in chronological order, including the AI's original suggestion, its confidence score, and any subsequent human override.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Grading" icon="graduation-cap" href="/instructors/grading">
+    Learn Speed Grader workflow and the Grading Command Center.
+  </Card>
+  <Card title="Assignments" icon="clipboard-list" href="/instructors/assignments">
+    Create rubrics that unlock AI grading capabilities.
+  </Card>
+</CardGroup>

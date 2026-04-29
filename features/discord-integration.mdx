@@ -1,0 +1,113 @@
+---
+title: 'Discord Integration for Your LMS Course'
+description: 'Connect a Discord server to your Learning In Stride course to enable participation tracking, course announcements, and student engagement analytics.'
+---
+
+Discord integration lets you bridge your course community directly into Learning In Stride. Once connected, the LMS bot tracks student activity across your Discord server's channels, feeds participation scores back into the gradebook, and lets you send course announcements without leaving the admin dashboard.
+
+## How the integration works
+
+Learning In Stride maintains a Discord bot that registers with your course's server category. When you set up Discord for a course, the bot creates a dedicated category in your server containing a set of text channels scoped to that course. Every message, thread, and reply posted in those channels is counted toward each student's participation score.
+
+Student activity is collected and aggregated into each student's participation score. Scores are reflected in the gradebook automatically — no manual data entry is required.
+
+## Setting up Discord for a course
+
+<Steps>
+  <Step title="Open Discord Management">
+    In the instructor admin panel, navigate to **Discord Management**. Select the course and semester you want to configure from the dropdown.
+  </Step>
+  <Step title="Create the course channels">
+    Click **Set Up Discord**. The bot creates a server category named after your course and provisions the default channels (e.g., `#general`, `#announcements`). You can rename any channel inline by hovering over it in the channel list and clicking the pencil icon.
+  </Step>
+  <Step title="Register the bot for participation tracking">
+    After channels exist, click **Enable Participation Tracking**. This registers the course with the Discord bot so message activity begins flowing into participation scores. You will see a **Bot Course ID** and a running **Messages Tracked** counter once registration succeeds.
+  </Step>
+  <Step title="Match and link student Discord accounts">
+    Click **Match Discord** to scan the server roster against your enrolled students. The panel shows three groups: **Linked & Verified**, **Need Linking**, and **Not in Discord**. Use **Link All** to auto-link every matched-but-unlinked student in one action.
+  </Step>
+  <Step title="Sync roles">
+    Click **Sync Roles** to grant enrolled students access to the course channels. Repeat this any time enrollment changes. The sync operation reports how many roles were added or removed.
+  </Step>
+</Steps>
+
+<Note>
+  Discord must be set up before you can enable participation tracking. The **Enable Participation Tracking** button is disabled until the course channels exist.
+</Note>
+
+## How students link their Discord account
+
+Students who have not yet joined the course Discord server appear in the **Not in Discord** group. You can send each student an individual reminder email directly from the Match Discord modal, or use **Email All** to notify every missing student at once.
+
+Once a student joins the server, the next roster match will detect them. If their Discord username contains their RCS ID, the system matches them automatically. You or the student can also complete the link manually through their LMS profile settings.
+
+<Tip>
+  Run a roster match early in the semester and use **Link All** to handle the bulk of account associations automatically. Manually remind the remaining students who are still missing from the server.
+</Tip>
+
+## Participation tracking via Discord activity
+
+The Discord bot records the following activity types for each student:
+
+| Activity | Points (default) |
+|---|---|
+| Message posted | 1 pt |
+| Thread started | 2 pts |
+| Reply to a thread | 1 pt |
+
+Point values are configurable per course in the **Gamification Settings** panel. Activity counts roll into each student's overall participation score alongside in-class attendance data.
+
+The **Activity** tab in Discord Management shows aggregate metrics across the full semester:
+
+- Total messages, threads, and reactions
+- Percentage of enrolled students who have posted at least once
+- A weekly bar chart breaking down message volume by week
+- Top 5 contributors ranked by message count
+
+## Sending course announcements via Discord
+
+<Tabs>
+  <Tab title="Send announcement">
+    From the Discord Management panel, click **Announce**. Type your message in the composer. Check **Mention @everyone** to notify all students in the server immediately. Click **Send Announcement** to post to the course's announcements channel.
+  </Tab>
+  <Tab title="Create a discussion thread">
+    Click **New Thread**, select the target channel, give the thread a name (e.g., "Week 5 Discussion"), and write the opening message. The bot creates the thread and posts your opening message inside it.
+  </Tab>
+</Tabs>
+
+The **Announcements** tab keeps a full history of every announcement sent for that course and semester, so you can review what was communicated and when.
+
+## Managing team channels
+
+If your course uses team-based projects, Learning In Stride can create a private text and voice channel pair for each team inside the same course category. Click **Setup All Team Channels** from the Teams section to provision channels for every team that does not already have one.
+
+Use **Sync Student Enrollments** to keep team membership current as students are added or removed from teams.
+
+## Archiving Discord channels
+
+At the end of a semester, click **Archive Channels** to hide the course category from students. Archived channels are preserved on the server but no longer visible to enrolled students. This action cannot be undone from the LMS; restore access directly in your Discord server settings if needed.
+
+<Warning>
+  Archiving hides channels immediately and notifies no one. Send a final announcement before archiving if students may still need access to course materials posted in Discord.
+</Warning>
+
+## Discord Insights
+
+The **Insights** tab surfaces AI-generated summaries of course activity patterns — participation trends, engagement gaps, and top discussion topics — drawn from the aggregated Discord data for the selected course and semester.
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="What happens if a student has two Discord accounts?">
+    Only one Discord account can be linked to a student's LMS profile at a time. If a student needs to switch accounts, they must unlink the old account from their profile settings before the new one can be matched.
+  </Accordion>
+  <Accordion title="Can I use an existing Discord server instead of having the bot create channels?">
+    The bot creates a scoped category inside an existing server — it does not require a dedicated server per course. Point the bot at your department server and it will add a category for each course you configure.
+  </Accordion>
+  <Accordion title="Do participation scores update in real time?">
+    Discord activity is batched and synced on a scheduled interval, not in real time. Scores typically reflect activity within a few minutes of it occurring.
+  </Accordion>
+  <Accordion title="Will students see their own Discord participation scores?">
+    Yes. Students can view their Discord activity contribution on their Growth Journey page and in any participation breakdown the instructor makes visible.
+  </Accordion>
+</AccordionGroup>

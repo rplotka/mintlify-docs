@@ -1,0 +1,117 @@
+---
+title: 'Course Setup: Import, Schedule, and Publish Your Course'
+description: 'Walk through the Course Setup Wizard to create a course, import your student roster, build a schedule, and publish to students in one guided flow.'
+---
+
+The Course Setup Wizard takes you from a blank semester to a fully published course in six steps. You work through each step in order, but you can return to any completed step at any time from the wizard's progress bar.
+
+## Starting the wizard
+
+Navigate to **Admin** and click **Course Setup** in the sidebar. The wizard opens to step one automatically.
+
+<Steps>
+  <Step title="Load the academic calendar">
+    Learning In Stride pulls semester dates directly from the RPI academic calendar. When the wizard opens, it auto-discovers available semesters and shows which ones are already loaded.
+
+    - Semesters marked **Loaded** already exist in the system — you can skip those.
+    - Semesters marked **Ready** have complete class-start and finals-end dates and are ready to create.
+    - Semesters marked **Missing dates** could not extract the required dates from the calendar source.
+
+    Select the checkboxes next to any new semesters you want to create, then click **Create Semesters**. Click **Refresh** if you expect a newer calendar to have appeared since the page loaded.
+
+    You need at least one semester before you can continue.
+  </Step>
+
+  <Step title="Select your courses">
+    The wizard queries RPI SIS using your faculty account to discover courses you are assigned to teach. Courses are grouped by term (Summer, Fall, Spring).
+
+    - Courses marked **Loaded** are already in Learning In Stride — no action needed.
+    - Courses marked **New** are available to import.
+
+    Select the courses you want to add and click **Import**. The system links each course to the correct semester automatically. Click **Refresh** next to any term if the list looks incomplete.
+
+    <Note>
+      If a course is missing from SIS discovery, contact your registrar to confirm your assignment is recorded. You cannot import a course that is not assigned to you in SIS.
+    </Note>
+  </Step>
+
+  <Step title="Build your schedule">
+    Choose a course from the dropdown, then pick one of two options:
+
+    **Copy from a previous semester** — select a prior semester from the list. Each option shows the number of weeks and schedule items it contains. Click **Copy & Adjust Dates** and the system re-anchors all item dates to match the new semester's calendar.
+
+    **Edit schedule manually** — click **Open Schedule Editor** to open the full Schedule Editor in a new tab. See [Schedule Center](/instructors/schedule) for instructions on adding lectures, labs, and office hours.
+  </Step>
+
+  <Step title="Import students">
+    Select the course you want to populate, then upload one or both of the following:
+
+    **SIS Roster (Excel or CSV)** — export the roster by CRN from Banner/SIS. Required columns are `email`, `name`, `rcs_id`, and `student_id`. The `section` column is optional.
+
+    **Student photos (ZIP)** — upload a ZIP file of student headshots. The system matches photos to roster entries by RCS ID and displays them on the enrollment list.
+
+    After uploading each file, a confirmation toast shows how many students were imported or matched.
+  </Step>
+
+  <Step title="Publish the course">
+    A course in **Draft** state is invisible to students. When you are ready, click **Publish** on this step. Students who are enrolled will immediately gain access to the course in their Hub.
+
+    You can unpublish a course at any time from **Admin → Courses** if you need to make the course private again.
+  </Step>
+
+  <Step title="Access course tools">
+    The final step is a quick-launch panel. From here you can jump directly to:
+
+    - **Schedule** — add or edit class meetings
+    - **Assignments** — create and manage assignments
+    - **Grades** — view the student grade roster
+    - **Enrollment** — manage the roster after publishing
+    - **Discord** — link a server for course communication
+
+    These same tools are always accessible from the course detail page in **Admin → Courses**.
+  </Step>
+</Steps>
+
+## Managing enrollment after setup
+
+Open **Admin → Courses**, select your course, and click **Enrollment**. From this page you can:
+
+- **Add a user manually** — search by name, email, or RCS ID and assign a role (Instructor, TA, Grader, or Student).
+- **Import from file** — upload a Banner/SIS Excel or CSV to add students in bulk, or import a team-assignment sheet (columns: `team`, `email`).
+- **Edit an enrollment** — change a student's section, cohort, or extra-time multiplier.
+- **Remove a user** — click the trash icon next to any enrollment to unenroll that person.
+
+<Tip>
+  Use the **Import** flow whenever you receive an updated roster mid-semester. The importer skips students who are already enrolled, so you can safely re-import without creating duplicates.
+</Tip>
+
+## Configuring Discord
+
+If your course uses a Discord server, go to **Admin → Discord** and link the server. Once linked, course announcements and grade notifications can be routed to specific channels. Discord participation data also flows into the Participation Grading service automatically.
+
+## The Professor Dashboard
+
+After setup, your main command center is the **Professor Dashboard** at **Admin → Dashboard**. It shows:
+
+- A summary of courses, students, pending grading items, and average grade for the current semester
+- Per-course cards sorted by grading urgency
+- AI Insights — at-risk students flagged by the AI risk assessment engine
+- Upcoming deadlines across all courses
+- Quick links to Settings, Discord, AI, and Export tools
+
+Use the semester selector in the top-right corner to switch the dashboard view between terms.
+
+<CardGroup cols={2}>
+  <Card title="Assignments" icon="clipboard-list" href="/instructors/assignments">
+    Create assignments, rubrics, and submission policies.
+  </Card>
+  <Card title="Schedule Center" icon="calendar-days" href="/instructors/schedule">
+    Add lectures, labs, recitations, and office hours.
+  </Card>
+  <Card title="Grading" icon="graduation-cap" href="/instructors/grading">
+    Review submissions and manage grades.
+  </Card>
+  <Card title="AI Grading" icon="sparkles" href="/instructors/ai-grading">
+    Configure AI-assisted grading for your courses.
+  </Card>
+</CardGroup>
